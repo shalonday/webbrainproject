@@ -1,5 +1,5 @@
 # The Online Brain Project
-The Online Brain Project (OBP) is a wiki focused on organizing educational content across the web along a graph data structure relating skills and learning materials with each other (i.e. a giant skill tree).
+The Online Brain Project (OBP) is a wiki focused on organizing educational content across the web along a graph data structure relating skills and learning materials with each other.
 
 ## Description / Vision
 Video games called them skill trees and Khan Academy called them knowledge maps--whichever name you call them, graphs (the data structure consisting of vertices and edges) can be used to arrange skills or concepts to show their "is prerequisite to" relationships between each other. OBP adds another ingredient: self-contained collections of learning materials from the web which OBP calls "learning modules" or simply "modules". We can arrange the skills and modules along the graph to reveal (Skill)-[Is Prerequisite To]->(Module)-[That Teaches]->(Skill) relationships. Doing so yields many benefits; a non-exhaustive list could be:
