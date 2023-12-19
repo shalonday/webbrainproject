@@ -9,7 +9,7 @@ import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
 function App() {
   return (
     <SkillTreesContextProvider>
-      <BrowserRouter basename="/theonlinebrainproject">
+      <BrowserRouter>
         <Routes>
           <Route index element={<Search />} />
           <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
