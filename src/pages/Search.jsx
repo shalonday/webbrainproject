@@ -7,15 +7,9 @@ import MainButton from "../components/MainButton";
 import Loader from "../components/Loader";
 import { fetchUniversalTree } from "../services/apiTrees";
 import { useQuery } from "@tanstack/react-query";
-
-function buildParamStringFromArray(array) {
-  let string = "";
-  for (let i = 0; i < array.length; i++) {
-    if (i < array.length - 1) string += array[i] + ",";
-    else string += array[i]; // last element, so don't put an & at the end.
-  }
-  return string;
-}
+import NodeDescription from "../components/NodeDescription";
+import { buildParamStringFromArray } from "../utils";
+import SelectedNodesCard from "../components/search/SelectedNodesCard";
 
 function Search() {
   const {
@@ -58,15 +52,8 @@ function Search() {
 
   return (
     <div className={styles.searchPage}>
-      <div
-        className={styles.nodeDescription}
-        style={{ display: currentNode ? "block" : "none" }}
-      >
-        <div>
-          <h3>{currentNode?.title}</h3>
-        </div>
-        <p>{currentNode?.description}</p>
-      </div>
+      {currentNode && <NodeDescription currentNode={currentNode} />}
+
       {isLoading && <Loader />}
       {error && <h1>{error}</h1>}
       {!isLoading && !error && (
@@ -79,24 +66,27 @@ function Search() {
       )}
       <div className={styles.bottomThird}>
         {selectedNodes.length > 0 && (
-          <div className={styles.buttonsDiv}>
-            <MainButton
-              onClick={handleGeneratePath}
-              flexValue={1}
-              disabledValue={selectedNodes.length !== 1}
-            >
-              Generate Path
-            </MainButton>
+          <>
+            <SelectedNodesCard selectedNodes={selectedNodes} />
+            <div className={styles.buttonsDiv}>
+              <MainButton
+                onClick={handleGeneratePath}
+                flexValue={1}
+                disabledValue={selectedNodes.length !== 1}
+              >
+                Generate Path
+              </MainButton>
 
-            <Link
-              to={`/edit/${buildParamStringFromArray(
-                selectedNodes.map((node) => node.id)
-              )}`}
-              className={styles.linkFlexItem}
-            >
-              <MainButton onClick={handlePlusClick}>Add a Branch</MainButton>
-            </Link>
-          </div>
+              <Link
+                to={`/edit/${buildParamStringFromArray(
+                  selectedNodes.map((node) => node.id)
+                )}`}
+                className={styles.linkFlexItem}
+              >
+                <MainButton onClick={handlePlusClick}>Add a Branch</MainButton>
+              </Link>
+            </div>
+          </>
         )}
 
         <div className={styles.inputDiv}>
