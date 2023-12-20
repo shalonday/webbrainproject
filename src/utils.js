@@ -7,3 +7,12 @@ export function uuidv4() {
     ).toString(16)
   );
 }
+
+export function buildParamStringFromArray(array) {
+  let string = "";
+  for (let i = 0; i < array.length; i++) {
+    if (i < array.length - 1) string += array[i] + ",";
+    else string += array[i]; // last element, so don't put an & at the end.
+  }
+  return string;
+}
