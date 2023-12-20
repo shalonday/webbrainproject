@@ -3,8 +3,8 @@ import { Suspense, useState } from "react";
 import styles from "./ModuleModal.module.css";
 import AddTargetNodeSection from "./AddTargetNodeSection";
 import MainTextSection from "./MainTextSection";
-import { uuidv4 } from "../utils";
-import Loader from "./Loader";
+import { uuidv4 } from "../../utils";
+import Loader from "../Loader";
 
 function ModuleModal({
   prerequisiteNodes,

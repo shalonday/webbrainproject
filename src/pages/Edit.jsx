@@ -1,9 +1,9 @@
 import styles from "./Edit.module.css";
 import { useEffect, useState } from "react";
 import { useSkillTreesContext } from "../contexts/SkillTreesContext";
-import ModuleModal from "../components/ModuleModal";
+import ModuleModal from "../components/edit/ModuleModal";
 import { useNavigate, useParams } from "react-router-dom";
-import EditPageChart from "../components/EditPageChart";
+import EditPageChart from "../components/edit/EditPageChart";
 import MainButton from "../components/MainButton";
 import Loader from "../components/Loader";
 

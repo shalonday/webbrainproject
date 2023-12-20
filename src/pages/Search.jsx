@@ -2,11 +2,20 @@ import styles from "./Search.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSkillTreesContext } from "../contexts/SkillTreesContext";
 import { useState } from "react";
-import SearchPageChart from "../components/SearchPageChart";
+import SearchPageChart from "../components/search/SearchPageChart";
 import MainButton from "../components/MainButton";
 import Loader from "../components/Loader";
 import { fetchUniversalTree } from "../services/apiTrees";
 import { useQuery } from "@tanstack/react-query";
+
+function buildParamStringFromArray(array) {
+  let string = "";
+  for (let i = 0; i < array.length; i++) {
+    if (i < array.length - 1) string += array[i] + ",";
+    else string += array[i]; // last element, so don't put an & at the end.
+  }
+  return string;
+}
 
 function Search() {
   const {
@@ -29,6 +38,9 @@ function Search() {
 
   function handleKeyDown(e) {
     if (e.key === "Enter") searchNodes(e.target.value);
+
+    // setSelectedNodes to the search results; search only locally.
+    // display a small scrollable card that contains the search result names.
   }
 
   function handleGeneratePath() {
@@ -42,15 +54,6 @@ function Search() {
       nodes: selectedNodes,
       links: [],
     });
-  }
-
-  function buildParamStringFromArray(array) {
-    let string = "";
-    for (let i = 0; i < array.length; i++) {
-      if (i < array.length - 1) string += array[i] + ",";
-      else string += array[i]; // last element, so don't put an & at the end.
-    }
-    return string;
   }
 
   return (

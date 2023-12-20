@@ -1,6 +1,6 @@
 import styles from "./AddLinkModal.module.css";
 import { useState } from "react";
-import { uuidv4 } from "../utils";
+import { uuidv4 } from "../../utils";
 
 function AddLinkModal({
   linkTextSetter,

@@ -1,7 +1,7 @@
 import styles from "./Tree.module.css";
 import { useEffect, useState } from "react";
-import TreeModuleView from "../components/TreeModuleView";
-import TreePageChart from "../components/TreePageChart";
+import TreeModuleView from "../components/tree/TreeModuleView";
+import TreePageChart from "../components/tree/TreePageChart";
 import NodeDescription from "../components/NodeDescription";
 import MainButton from "../components/MainButton";
 import { useSkillTreesContext } from "../contexts/SkillTreesContext";

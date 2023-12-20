@@ -2,7 +2,7 @@ import styles from "./MainTextSection.module.css";
 import { useRef, useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import TextEditor from "./TextEditor";
-import MainButton from "./MainButton";
+import MainButton from "../MainButton";
 
 function MainTextSection({ setLearnText, setPracticeText, setResourcesArray }) {
   const [learnLinkText, setLearnLinkText] = useState("");

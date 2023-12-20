@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useSkillTreesContext } from "../contexts/SkillTreesContext";
-import D3Chart from "./D3Chart";
+import { useSkillTreesContext } from "../../contexts/SkillTreesContext";
+import D3Chart from "../D3Chart";
 import styles from "./SearchPageChart.module.css";
 
 function SearchPageChart({

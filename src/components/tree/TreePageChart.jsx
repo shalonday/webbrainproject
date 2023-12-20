@@ -1,4 +1,4 @@
-import D3Chart from "./D3Chart";
+import D3Chart from "../D3Chart";
 import styles from "./TreePageChart.module.css";
 
 function TreePageChart({
