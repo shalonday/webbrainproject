@@ -5,13 +5,7 @@
 // links: {source: uuid, target: uuid, id:uuid}
 //        - source and target properties are requirements for D3Chart
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 
 const BASE_URL = "https://perk-api-production.up.railway.app"; //"http://localhost:3000"; //
 const SkillTreesContext = createContext();
@@ -125,24 +119,6 @@ function SkillTreesContextProvider({ children }) {
 
   // Initial elements that will appear in Edit. These are set at Search.jsx, then accessed at Edit.jsx
   const [elementsToEdit, setElementsToEdit] = useState([]);
-
-  useEffect(function () {
-    async function fetchUniversalTree() {
-      //fetch trees created by user. in the future, need: recommendedTrees and followedTrees
-      dispatch({ type: "loading" });
-      try {
-        const res = await fetch(`${BASE_URL}/tree`);
-        const data = await res.json();
-        dispatch({ type: "universalTree/loaded", payload: data });
-      } catch {
-        dispatch({
-          type: "rejected",
-          payload: "There was an error loading data",
-        });
-      }
-    }
-    fetchUniversalTree();
-  }, []);
 
   // Send query to backend, which returns a (tree with only nodesArray populated or just nodesArray???)
   // based on the search query

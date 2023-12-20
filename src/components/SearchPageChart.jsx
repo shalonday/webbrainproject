@@ -3,8 +3,13 @@ import { useSkillTreesContext } from "../contexts/SkillTreesContext";
 import D3Chart from "./D3Chart";
 import styles from "./SearchPageChart.module.css";
 
-function SearchPageChart({ selectedNodes, setSelectedNodes, setCurrentNode }) {
-  const { universalTree, searchResult, pathResult } = useSkillTreesContext();
+function SearchPageChart({
+  universalTree,
+  selectedNodes,
+  setSelectedNodes,
+  setCurrentNode,
+}) {
+  const { searchResult, pathResult } = useSkillTreesContext();
   const [displayedTree, setDisplayedTree] = useState(universalTree);
   let timer;
   const touchduration = 500;

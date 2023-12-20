@@ -5,12 +5,22 @@ import { useState } from "react";
 import SearchPageChart from "../components/SearchPageChart";
 import MainButton from "../components/MainButton";
 import Loader from "../components/Loader";
+import { fetchUniversalTree } from "../services/apiTrees";
+import { useQuery } from "@tanstack/react-query";
 
 function Search() {
+  const {
+    isLoading,
+    data: universalTree,
+    error,
+  } = useQuery({
+    queryKey: ["universalTree"],
+    queryFn: fetchUniversalTree,
+  });
+
   const navigate = useNavigate();
 
-  const { isLoading, setElementsToEdit, searchNodes, error } =
-    useSkillTreesContext();
+  const { setElementsToEdit, searchNodes } = useSkillTreesContext();
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -58,6 +68,7 @@ function Search() {
       {error && <h1>{error}</h1>}
       {!isLoading && !error && (
         <SearchPageChart
+          universalTree={universalTree}
           selectedNodes={selectedNodes}
           setSelectedNodes={setSelectedNodes}
           setCurrentNode={setCurrentNode}
