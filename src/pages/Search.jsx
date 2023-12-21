@@ -62,12 +62,16 @@ function Search() {
           selectedNodes={selectedNodes}
           setSelectedNodes={setSelectedNodes}
           setCurrentNode={setCurrentNode}
+          currentNode={currentNode}
         />
       )}
       <div className={styles.bottomThird}>
         {selectedNodes.length > 0 && (
           <>
-            <SelectedNodesCard selectedNodes={selectedNodes} />
+            <SelectedNodesCard
+              selectedNodes={selectedNodes}
+              setCurrentNode={setCurrentNode}
+            />
             <div className={styles.buttonsDiv}>
               <MainButton
                 onClick={handleGeneratePath}
@@ -91,6 +95,7 @@ function Search() {
 
         <div className={styles.inputDiv}>
           <input
+            placeholder="What do you want to learn?"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}

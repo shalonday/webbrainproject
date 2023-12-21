@@ -8,6 +8,7 @@ function SearchPageChart({
   selectedNodes,
   setSelectedNodes,
   setCurrentNode,
+  currentNode,
 }) {
   const { searchResult, pathResult } = useSkillTreesContext();
   const [displayedTree, setDisplayedTree] = useState(universalTree);
@@ -102,6 +103,7 @@ function SearchPageChart({
         onNodeTouchEnd={handleNodeTouchEnd}
         className={styles.svgContainer}
         selectedNodeIds={selectedNodeIds.current}
+        currentNode={currentNode}
       />
     </>
   );

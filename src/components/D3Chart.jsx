@@ -3,6 +3,7 @@ import styles from "./D3Chart.module.css";
 import { useEffect, useRef } from "react";
 
 const RADIUS = 7;
+const MINOR_RADIUS = RADIUS / 2;
 const ACTIVE_SKILL_FILL = "hsl(60 100% 50%)";
 const INACTIVE_SKILL_FILL = "hsl(60 50% 50%)";
 const ACTIVE_MODULE_FILL = "hsl(80 100% 50%)";
@@ -150,6 +151,7 @@ export default function D3Chart({
   onNodeTouchStart = () => {},
   onNodeTouchEnd = () => {},
   selectedNodeIds = [],
+  currentNode = null,
 }) {
   const gLinkRef = useRef();
   const gNodeRef = useRef();
@@ -219,7 +221,25 @@ export default function D3Chart({
                     ? styles.selected
                     : `${selectedNodeIds.includes(node.id)}`
                 }
-              ></circle>
+              >
+                {currentNode && currentNode?.id === node.id && (
+                  <>
+                    <animate
+                      attributeName="r"
+                      values={
+                        currentNode?.type === "skill"
+                          ? `${RADIUS};${RADIUS * 2};${RADIUS}`
+                          : `${MINOR_RADIUS};${
+                              MINOR_RADIUS * 2
+                            };${MINOR_RADIUS}`
+                      }
+                      dur="1.5s"
+                      begin="0s"
+                      repeatCount="indefinite"
+                    />
+                  </>
+                )}
+              </circle>
             ))}
           </g>
         </g>

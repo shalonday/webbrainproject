@@ -24,6 +24,7 @@
   border-style: solid;
   flex: 1;
   padding: 8px;
+  padding-left: 30px;
   border: 1px solid #222222;
   border-radius: 8px;
   transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
@@ -32,7 +33,12 @@
 
 .input:focus,
 .inputNoBackground {
+  padding-left: 8px;
   background: none;
+}
+
+.input:focus::placeholder {
+  color: transparent;
 }
 
 .inputDiv {
