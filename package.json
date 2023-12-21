@@ -12,7 +12,6 @@
   "dependencies": {
     "@mdxeditor/editor": "^1.11.4",
     "@tanstack/react-query": "^5.14.2",
-    "@tanstack/react-query-devtools": "^5.14.2",
     "d3": "^7.8.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -23,6 +22,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
+    "@tanstack/react-query-devtools": "^5.14.2",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
