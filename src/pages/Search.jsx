@@ -38,8 +38,7 @@ function Search() {
   }
 
   function handleGeneratePath() {
-    console.log(selectedNodes[0].id);
-    navigate(`/s/0/e/${selectedNodes[0].id}`); // selectedNodes should only contain 1 element here.
+    navigate(`/s/0/e/${currentNode.id}`);
   }
 
   function handlePlusClick() {
@@ -76,7 +75,7 @@ function Search() {
               <MainButton
                 onClick={handleGeneratePath}
                 flexValue={1}
-                disabledValue={selectedNodes.length !== 1}
+                disabledValue={!currentNode}
               >
                 Generate Path
               </MainButton>
