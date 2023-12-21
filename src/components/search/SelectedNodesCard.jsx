@@ -19,10 +19,6 @@ const ListItem = styled.li`
   line-height: 2;
 `;
 
-const Legend = styled.p`
-  margin-top: 20px;
-`;
-
 function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
   function focusClickedNode(e, node) {
     setCurrentNode(node);
@@ -32,14 +28,10 @@ function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
       <ul>
         {selectedNodes?.map((node) => (
           <ListItem key={node.id} onClick={(e) => focusClickedNode(e, node)}>
-            {node.type === "skill" ? "S: " : "M: "}
             {node.title ? node.title : node.description}
           </ListItem>
         ))}
       </ul>
-      <Legend>
-        <i>*Legend: S: Skill, M: Module</i>
-      </Legend>
     </StyledCard>
   );
 }

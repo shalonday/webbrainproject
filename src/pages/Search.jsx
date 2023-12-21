@@ -122,19 +122,14 @@ function searchNodes(query, tree) {
   return queryResults;
 }
 
+// Node, String -> Boolean
 function nodeIsMatch(node, query) {
   if (node.type === "skill") {
     return (
       node.title?.toLowerCase().includes(query.toLowerCase()) ||
       node.description?.toLowerCase().includes(query.toLowerCase())
     );
-  } else if (node.type === "module") {
-    return (
-      node.title?.toLowerCase().includes(query.toLowerCase()) ||
-      node.learnText?.toLowerCase().includes(query.toLowerCase()) ||
-      node.practiceText?.toLowerCase().includes(query.toLowerCase())
-    );
-  }
+  } else return false;
 }
 
 export default Search;

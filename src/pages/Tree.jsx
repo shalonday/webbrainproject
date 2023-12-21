@@ -48,7 +48,6 @@ function Tree() {
   );
 
   function handlePlayClick() {
-    console.log("play was clicked");
     // play animation and then set activeNode to the next node. If it is a module node,
     // display the module view, and fold the Chart.
     setIsModuleVisible(true);
