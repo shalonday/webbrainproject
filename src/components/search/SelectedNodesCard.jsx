@@ -39,7 +39,6 @@ function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
         ))}
       </ul>
       <Legend>
-        *Legend: S: Skill, M: Module
         <i>*Legend: S: Skill, M: Module</i>
       </Legend>
     </StyledCard>
