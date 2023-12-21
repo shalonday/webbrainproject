@@ -25,7 +25,6 @@ const Legend = styled.p`
 
 function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
   function focusClickedNode(e, node) {
-    console.log(node);
     setCurrentNode(node);
   }
   return (

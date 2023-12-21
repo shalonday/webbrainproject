@@ -23,7 +23,7 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { setElementsToEdit, searchNodes } = useSkillTreesContext();
+  const { setElementsToEdit } = useSkillTreesContext();
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -31,10 +31,18 @@ function Search() {
   const [currentNode, setCurrentNode] = useState(null);
 
   function handleKeyDown(e) {
-    if (e.key === "Enter") searchNodes(e.target.value);
-
-    // setSelectedNodes to the search results; search only locally.
-    // display a small scrollable card that contains the search result names.
+    if (e.key === "Enter") {
+      //search only locally. then setSelectedNodes to the search results;
+      const results = searchNodes(searchQuery, universalTree);
+      if (results.length > 0) {
+        setCurrentNode(null); //doesn't make sense to retain previous currentNode when searching
+        setSelectedNodes(results);
+      } else {
+        alert(
+          "That didn't return any results! Consider inviting your friends who know about this topic to contribute to the wiki."
+        );
+      }
+    }
   }
 
   function handleGeneratePath() {
@@ -106,6 +114,27 @@ function Search() {
       </div>
     </div>
   );
+}
+
+// String, Tree -> Nodes
+function searchNodes(query, tree) {
+  const queryResults = tree.nodes.filter((node) => nodeIsMatch(node, query));
+  return queryResults;
+}
+
+function nodeIsMatch(node, query) {
+  if (node.type === "skill") {
+    return (
+      node.title?.toLowerCase().includes(query.toLowerCase()) ||
+      node.description?.toLowerCase().includes(query.toLowerCase())
+    );
+  } else if (node.type === "module") {
+    return (
+      node.title?.toLowerCase().includes(query.toLowerCase()) ||
+      node.learnText?.toLowerCase().includes(query.toLowerCase()) ||
+      node.practiceText?.toLowerCase().includes(query.toLowerCase())
+    );
+  }
 }
 
 export default Search;
