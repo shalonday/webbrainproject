@@ -8,6 +8,7 @@ import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,7 @@ function App() {
             <Route index element={<Search />} />
             <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
             <Route path="edit/:nodeIds" element={<Edit />} />
+            <Route path="login" element={<Login />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>

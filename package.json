@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mdxeditor/editor": "^1.11.4",
+    "@supabase/supabase-js": "^2.39.1",
     "@tanstack/react-query": "^5.14.2",
     "d3": "^7.8.5",
     "react": "^18.2.0",
