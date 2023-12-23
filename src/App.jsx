@@ -7,6 +7,7 @@ import "./App.css";
 import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,24 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
+        <Toaster
+          position="bottom-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 1500,
+            },
+            style: {
+              fontSize: "1rem",
+              maxWidth: "500px",
+              padding: "16px 24px",
+            },
+          }}
+        />
       </SkillTreesContextProvider>
     </QueryClientProvider>
   );

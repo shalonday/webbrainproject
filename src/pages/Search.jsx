@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import NodeDescription from "../components/NodeDescription";
 import { buildParamStringFromArray } from "../utils";
 import SelectedNodesCard from "../components/search/SelectedNodesCard";
+import toast from "react-hot-toast";
 
 function Search() {
   const {
@@ -38,9 +39,7 @@ function Search() {
         setCurrentNode(null); //doesn't make sense to retain previous currentNode when searching
         setSelectedNodes(results);
       } else {
-        alert(
-          "That didn't return any results! Consider inviting your friends who know about this topic to contribute to the wiki."
-        );
+        toast.error("That didn't return any results!");
       }
     }
   }
