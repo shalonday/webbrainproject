@@ -4,12 +4,12 @@ import { useEffect, useRef } from "react";
 
 const RADIUS = 7;
 const MINOR_RADIUS = RADIUS / 2;
-const ACTIVE_SKILL_FILL = "hsl(60 100% 50%)";
-const INACTIVE_SKILL_FILL = "hsl(60 50% 50%)";
-const ACTIVE_MODULE_FILL = "hsl(80 100% 50%)";
-const INACTIVE_MODULE_FILL = "hsl(60 10% 80%)";
-const ACTIVE_LINK_COLOR = "hsl(60 100% 50%)";
-const INACTIVE_LINK_COLOR = "hsl(60 10% 80%)";
+const ACTIVE_SKILL_FILL = "hsl(315 100% 60%)";
+const INACTIVE_SKILL_FILL = "hsl(0 50% 90%)";
+const ACTIVE_MODULE_FILL = "hsl(180 100% 50%)";
+const INACTIVE_MODULE_FILL = "hsl(60 10% 20%)";
+const ACTIVE_LINK_COLOR = "hsl(180 100% 50%)";
+const INACTIVE_LINK_COLOR = "hsl(60 10% 20%)";
 
 function ForceGraph(
   data,
@@ -37,7 +37,7 @@ function ForceGraph(
       "link",
       d3.forceLink(links).id((d) => d.id)
     )
-    .force("charge", d3.forceManyBody().strength(-100))
+    .force("charge", d3.forceManyBody().strength(-30))
     .force("x", d3.forceX(viewBoxWidth / 2))
     .force("y", d3.forceY(viewBoxHeight / 2))
     .on("tick", ticked);
@@ -76,7 +76,7 @@ function ForceGraph(
     })
     .attr("r", (d) => {
       if (d.type === "module") return RADIUS / 2;
-      else return RADIUS;
+      else return RADIUS / 2;
     })
     .on("click", onNodeClick) // has to be before the "call" in order to work for some reason.
     .call(drag(simulation));
@@ -196,8 +196,8 @@ export default function D3Chart({
                 viewBox="0 0 10 10"
                 refX="15"
                 refY="5"
-                markerWidth="6"
-                markerHeight="6"
+                markerWidth="3"
+                markerHeight="3"
                 orient="auto-start-reverse"
               >
                 <path d="M 0 0 L 10 5 L 0 10 z" />
@@ -228,7 +228,9 @@ export default function D3Chart({
                       attributeName="r"
                       values={
                         currentNode?.type === "skill"
-                          ? `${RADIUS};${RADIUS * 2};${RADIUS}`
+                          ? `${MINOR_RADIUS};${
+                              MINOR_RADIUS * 2
+                            };${MINOR_RADIUS}`
                           : `${MINOR_RADIUS};${
                               MINOR_RADIUS * 2
                             };${MINOR_RADIUS}`

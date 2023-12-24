@@ -43,7 +43,7 @@ function TreePageChart({
         onNodeClick={handleNodeClick}
         onNodeTouchStart={handleNodeTouchStart}
         onNodeTouchEnd={handleNodeTouchEnd}
-        selectedNodeIds={[clickedNode?.id]}
+        currentNode={clickedNode}
       />
     </>
   );

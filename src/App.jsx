@@ -10,6 +10,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import GlobalStyles from "./GlobalStyles";
+import DarkTheme from "./DarkTheme";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +26,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <SkillTreesContextProvider>
+        <GlobalStyles />
+        <DarkTheme />
         <BrowserRouter>
           <Routes>
             <Route index element={<Search />} />

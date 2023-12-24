@@ -81,7 +81,6 @@ function Search() {
             <div className={styles.buttonsDiv}>
               <MainButton
                 onClick={handleGeneratePath}
-                flexValue={1}
                 disabledValue={!currentNode}
               >
                 Generate Path

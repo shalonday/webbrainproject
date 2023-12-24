@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 
 const Form = styled.form`
+  margin: auto;
   border: 2px solid black;
   height: min(66vh, 400px);
   width: min(100vw, 300px);
@@ -14,7 +15,6 @@ const Form = styled.form`
 
   & * {
     box-sizing: border-box;
-    font-family: "Open sans", sans-serif;
     font-weight: 300;
   }
   align-items: center;
@@ -33,6 +33,11 @@ const Input = styled.input`
 const PositionedMainButton = styled(MainButton)`
   margin: 0 auto;
   width: 80%;
+`;
+
+const Div = styled.div`
+  display: flex;
+  height: 80vh;
 `;
 
 function Login({ className }) {
@@ -56,23 +61,25 @@ function Login({ className }) {
   }
 
   return (
-    <Form className={className}>
-      <Input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={isLoading}
-      />
-      <Input
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={isLoading}
-      />
-      <PositionedMainButton onClick={handleLogin} disabled={isLoading}>
-        Log In
-      </PositionedMainButton>
-    </Form>
+    <Div>
+      <Form className={className}>
+        <Input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+        />
+        <PositionedMainButton onClick={handleLogin} disabled={isLoading}>
+          LOG IN
+        </PositionedMainButton>
+      </Form>
+    </Div>
   );
 }
 

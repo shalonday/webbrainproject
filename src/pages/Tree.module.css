@@ -1,4 +1,7 @@
 .playButtonDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
   bottom: 0px;
   padding: 20px;

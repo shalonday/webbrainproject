@@ -132,7 +132,7 @@ function TreeModuleView({
   return (
     <div>
       <form className={styles.form}>
-        <div className={styles.exitDiv}>
+        <div className={`${styles.exitDiv} globalDiv`}>
           <button onClick={handleExit}>&times;</button>
         </div>
         <fieldset className={styles.title}>
@@ -141,14 +141,16 @@ function TreeModuleView({
         <fieldset className={styles.prereqs}>
           <h3>Prerequisites</h3>
           <ul className={styles.prerequisitesList}>
+            To succeed in this module, the learner should already be able to:
             {prerequisiteNodes.map((node, i) => (
               <li key={i}>&#x2022;{node.description}</li>
             ))}
           </ul>
         </fieldset>
         <fieldset className={styles.targets}>
-          <h3>By the end of this module, the learner should be able to:</h3>
+          <h3>Objectives</h3>
           <ul>
+            By the end of this module, the learner should be able to:
             {objectiveNodes.map((node, i) => (
               <li key={i}>&#x2022;{node.description}</li>
             ))}
@@ -162,7 +164,7 @@ function TreeModuleView({
           <h3>Practice</h3>
           <Markdown>{currentModule.practiceText}</Markdown>
         </fieldset>
-        <div className={styles.submitButtonDiv}>
+        <div className={`${styles.submitButtonDiv} globalDiv`}>
           <button onClick={handleNext}>Done! &rarr;</button>
         </div>
         <div></div>

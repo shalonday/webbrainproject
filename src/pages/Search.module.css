@@ -20,12 +20,12 @@
 }
 
 .input {
-  background: top left url(../assets/search.svg) no-repeat;
+  background: top left url(../assets/search-white.svg) no-repeat;
   border-style: solid;
-  flex: 1;
+  width: min(100%, 400px);
   padding: 8px;
   padding-left: 30px;
-  border: 1px solid #222222;
+  border: 1px solid #fff;
   border-radius: 8px;
   transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
     transform 0.1s;
@@ -43,6 +43,7 @@
 
 .inputDiv {
   display: flex;
+  justify-content: center;
 }
 
 .bottomThird {

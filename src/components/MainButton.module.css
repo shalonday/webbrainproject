@@ -1,9 +1,6 @@
 .button {
-  background-color: #ffffff;
-  border: 1px solid #222222;
   border-radius: 8px;
   box-sizing: border-box;
-  color: #222222;
   cursor: pointer;
   display: inline-block;
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
