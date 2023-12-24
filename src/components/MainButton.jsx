@@ -38,17 +38,10 @@ const StyledMainButton = styled.button`
   }
 `;
 
-function MainButton({
-  onClick,
-  children,
-  flexValue = "0 1 auto",
-  disabledValue = false,
-  className,
-}) {
+function MainButton({ onClick, children, disabledValue = false, className }) {
   return (
     <StyledMainButton
       onClick={onClick}
-      style={{ flex: flexValue }}
       disabled={disabledValue}
       className={className}
     >
