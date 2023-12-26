@@ -22,19 +22,18 @@ const StyledMainButton = styled.button`
   &:focus-visible {
     box-shadow: #fff 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
     transition: box-shadow 0.2s;
+  }
+  &:active {
+    background-color: #333;
+    border-color: #fff;
+    transform: scale(0.96);
+  }
 
-    &:active {
-      background-color: #333;
-      border-color: #fff;
-      transform: scale(0.96);
-    }
-
-    &:disabled {
-      border-color: #333;
-      color: #333;
-      cursor: not-allowed;
-      opacity: 1;
-    }
+  &:disabled {
+    border-color: #333;
+    color: #333;
+    cursor: not-allowed;
+    opacity: 1;
   }
 `;
 

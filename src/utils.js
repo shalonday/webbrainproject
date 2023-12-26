@@ -8,11 +8,13 @@ export function uuidv4() {
   );
 }
 
+// build comma separated string of node ids that will be used as url params
 export function buildParamStringFromArray(array) {
   let string = "";
   for (let i = 0; i < array.length; i++) {
     if (i < array.length - 1) string += array[i] + ",";
     else string += array[i]; // last element, so don't put an & at the end.
   }
+  if (array.length === 0) string = "blank";
   return string;
 }

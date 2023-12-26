@@ -1,6 +1,5 @@
 import styles from "./Search.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useSkillTreesContext } from "../contexts/SkillTreesContext";
 import { useState } from "react";
 import SearchPageChart from "../components/search/SearchPageChart";
 import MainButton from "../components/MainButton";
@@ -24,8 +23,6 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { setElementsToEdit } = useSkillTreesContext();
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedNodes, setSelectedNodes] = useState([]);
@@ -48,14 +45,6 @@ function Search() {
     navigate(`/s/0/e/${currentNode.id}`);
   }
 
-  function handlePlusClick() {
-    console.log(selectedNodes);
-    setElementsToEdit({
-      nodes: selectedNodes,
-      links: [],
-    });
-  }
-
   return (
     <div className={styles.searchPage}>
       {currentNode && <NodeDescription currentNode={currentNode} />}
@@ -73,30 +62,25 @@ function Search() {
       )}
       <div className={styles.bottomThird}>
         {selectedNodes.length > 0 && (
-          <>
-            <SelectedNodesCard
-              selectedNodes={selectedNodes}
-              setCurrentNode={setCurrentNode}
-            />
-            <div className={styles.buttonsDiv}>
-              <MainButton
-                onClick={handleGeneratePath}
-                disabledValue={!currentNode}
-              >
-                Generate Path
-              </MainButton>
-
-              <Link
-                to={`/edit/${buildParamStringFromArray(
-                  selectedNodes.map((node) => node.id)
-                )}`}
-                className={styles.linkFlexItem}
-              >
-                <MainButton onClick={handlePlusClick}>Add a Branch</MainButton>
-              </Link>
-            </div>
-          </>
+          <SelectedNodesCard
+            selectedNodes={selectedNodes}
+            setCurrentNode={setCurrentNode}
+          />
         )}
+        <div className={styles.buttonsDiv}>
+          <MainButton onClick={handleGeneratePath} disabledValue={!currentNode}>
+            Generate Path
+          </MainButton>
+
+          <Link
+            to={`/edit/${buildParamStringFromArray(
+              selectedNodes.map((node) => node.id)
+            )}`}
+            className={styles.linkFlexItem}
+          >
+            <MainButton>Add a Branch</MainButton>
+          </Link>
+        </div>
 
         <div className={styles.inputDiv}>
           <input
