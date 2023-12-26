@@ -7,7 +7,8 @@ function AddTargetNodeSection({
 }) {
   return (
     <>
-      <h3>By the end of this module, the learner should be able to:</h3>
+      <h3>Objectives</h3>
+      By the end of this module, the learner should be able to:
       <ul className={styles.targetList}>
         {targetNodes.map((bullet, index) => (
           <li key={index} className={styles.targetNodeInputGroup}>
