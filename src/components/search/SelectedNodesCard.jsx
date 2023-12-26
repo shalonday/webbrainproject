@@ -17,6 +17,7 @@ const ListItem = styled.li`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 2;
+  cursor: pointer;
 `;
 
 function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
