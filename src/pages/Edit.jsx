@@ -1,5 +1,5 @@
 import styles from "./Edit.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSkillTreesContext } from "../contexts/SkillTreesContext";
 import ModuleModal from "../components/edit/ModuleModal";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,6 +43,13 @@ function Edit() {
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [isModuleModalVisible, setIsModuleModalVisible] = useState(false);
+
+  useEffect(
+    function () {
+      if (universalTree) setCurrentTree(getNodesById(nodeIds, universalTree));
+    },
+    [universalTree, nodeIds]
+  );
 
   async function handleSubmit() {
     // validation?
