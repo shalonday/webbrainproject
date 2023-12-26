@@ -32,6 +32,7 @@ function TextEditor({ textToAppend, onChange }) {
   );
   return (
     <MDXEditor
+      className="dark-theme dark-editor"
       ref={ref}
       onChange={onChange} // Detect changes upon typing
       markdown={markdown}
