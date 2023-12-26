@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GlobalStyles from "./GlobalStyles";
 import DarkTheme from "./DarkTheme";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ function App() {
             />
 
             <Route path="login" element={<Login />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>

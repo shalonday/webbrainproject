@@ -52,6 +52,11 @@ function Edit() {
     navigate("/");
   }
 
+  async function handleSave() {
+    // save a tree object to the Supabase PostgreSQL db containing the User's ID or smth
+    navigate("/profile");
+  }
+
   return (
     <>
       <div
@@ -79,19 +84,19 @@ function Edit() {
             setCurrentNode={setCurrentNode}
           />
         )}
-        <div className={styles.buttonDiv}>
-          {selectedNodes.length > 0 ? (
-            <button
-              className={styles.plusButton}
-              onClick={setIsModuleModalVisible}
-            >
-              +
-            </button>
-          ) : null}
-        </div>
 
         <div className={styles.submitDiv}>
-          <MainButton onClick={handleSubmit}>Submit</MainButton>
+          <button
+            className={styles.plusButton}
+            onClick={setIsModuleModalVisible}
+          >
+            +
+          </button>
+
+          <div className={styles.buttonDiv}>
+            <MainButton onClick={handleSave}>Save As Draft</MainButton>
+            <MainButton onClick={handleSubmit}>Submit</MainButton>
+          </div>
         </div>
       </div>
       {isModuleModalVisible && (

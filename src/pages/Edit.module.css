@@ -1,13 +1,13 @@
 .buttonDiv {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
 }
 
 .plusButton {
   display: block;
   border: none;
   background-color: transparent;
-  color: black;
   font-size: 3rem;
 }
 
@@ -32,6 +32,9 @@
 }
 
 .submitDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
   padding: 20px;
   position: fixed;
   bottom: 0px;
