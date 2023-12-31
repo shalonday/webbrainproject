@@ -1,18 +1,21 @@
 import "@mdxeditor/editor/style.css";
 import { Suspense, useState } from "react";
 import styles from "./ModuleModal.module.css";
-import AddTargetNodeSection from "./AddTargetNodeSection";
+import AddNodeSection from "./AddNodeSection";
 import MainTextSection from "./MainTextSection";
 import { uuidv4 } from "../../utils";
 import Loader from "../Loader";
 
 function ModuleModal({
   prerequisiteNodes,
+  currentTree,
   setCurrentTree,
   setIsModuleModalVisible,
 }) {
   const [title, setTitle] = useState("");
   const [targetNodeDescriptions, setTargetNodeDescriptions] = useState([]);
+  const [prerequisiteNodeDescriptions, setPrerequisiteNodeDescriptions] =
+    useState(prerequisiteNodes.map((node) => node.description));
   const [learnText, setLearnText] = useState("");
   const [practiceText, setPracticeText] = useState("");
 
@@ -21,13 +24,21 @@ function ModuleModal({
 
   // Int -> Effect
   // delete item in bullets array that corresponds to index
-  function handleDeleteItem(index) {
+  function handleDeleteTargetItem(index) {
     setTargetNodeDescriptions((array) =>
       array.filter((item, i) => i !== index)
     );
   }
 
-  // Add an empty item to detailsArray to be edited by user
+  // Int -> Effect
+  // delete item in bullets array that corresponds to index
+  function handleDeletePrereqItem(index) {
+    setPrerequisiteNodeDescriptions((array) =>
+      array.filter((item, i) => i !== index)
+    );
+  }
+
+  // Open a SearchNodeModal
   function handleAddItem(e) {
     e.preventDefault();
     setTargetNodeDescriptions((array) => [...array, ""]);
@@ -104,22 +115,24 @@ function ModuleModal({
             />
           </h3>
         </fieldset>
-        <fieldset className={styles.prereqs}>
-          <h3>Prerequisites</h3>
-          <ul className={styles.prerequisitesList}>
-            {prerequisiteNodes.map((node, i) => (
-              <li key={i}>&#x2022;{node.description}</li>
-            ))}
-          </ul>
-        </fieldset>
-        <fieldset className={styles.targets}>
-          <AddTargetNodeSection
-            targetNodes={targetNodeDescriptions}
-            setTargetNodes={setTargetNodeDescriptions}
-            handleDeleteItem={handleDeleteItem}
-            handleAddItem={handleAddItem}
-          />
-        </fieldset>
+        <AddNodeSection
+          nodes={prerequisiteNodeDescriptions}
+          setNodes={setPrerequisiteNodeDescriptions}
+          handleDeleteItem={handleDeletePrereqItem}
+          handleAddItem={handleAddItem}
+          currentTree={currentTree}
+          type="prereq"
+        />
+
+        <AddNodeSection
+          nodes={targetNodeDescriptions}
+          setTNodes={setTargetNodeDescriptions}
+          handleDeleteItem={handleDeleteTargetItem}
+          handleAddItem={handleAddItem}
+          currentTree={currentTree}
+          type="obj"
+        />
+
         <MainTextSection
           setLearnText={setLearnText}
           setPracticeText={setPracticeText}

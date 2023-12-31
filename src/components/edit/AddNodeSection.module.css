@@ -1,0 +1,49 @@
+.addNodesSection {
+  font-size: 1rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: justify;
+  margin: 20px 0;
+}
+
+.addNodesSection ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: justify;
+  margin: 20px 0;
+}
+
+.nodeInputGroup {
+  display: flex;
+}
+
+.nodeInputGroup span {
+  width: auto;
+}
+
+.nodeTextarea {
+  flex: 1;
+}
+
+.nodeList .addNodeButton {
+  padding: 2px 5px 0px 5px;
+
+  width: auto;
+  border: 1px solid;
+  border-radius: 300px;
+}
+
+.submitButtonDiv {
+  width: calc(100% - 40px);
+  border-bottom: 1px solid;
+  font-size: 20px;
+  position: fixed;
+  bottom: 20px;
+}
+
+.mainButtons button {
+  border: 1px solid white !important;
+}

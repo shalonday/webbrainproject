@@ -14,11 +14,7 @@
 }
 
 .form .title *,
-.form .prereqs *,
-.form .targets *,
 .form .title,
-.form .prereqs,
-.form .targets,
 .submitButtonDiv * {
   font-size: 1rem;
   border: none;
@@ -30,9 +26,7 @@
   text-align: justify;
 }
 
-.form .title,
-.form .prereqs,
-.form .targets {
+.form .title {
   margin: 20px 0;
 }
 

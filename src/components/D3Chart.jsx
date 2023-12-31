@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 const RADIUS = 7;
 const MINOR_RADIUS = RADIUS / 2;
 const ACTIVE_SKILL_FILL = "hsl(315 100% 60%)";
-const INACTIVE_SKILL_FILL = "hsl(0 50% 90%)";
+const INACTIVE_SKILL_FILL = "hsl(240 100% 30%)";
 const ACTIVE_MODULE_FILL = "hsl(180 100% 50%)";
 const INACTIVE_MODULE_FILL = "hsl(60 10% 20%)";
 const ACTIVE_LINK_COLOR = "hsl(180 100% 50%)";

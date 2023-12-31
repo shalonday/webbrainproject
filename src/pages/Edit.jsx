@@ -109,6 +109,7 @@ function Edit() {
       {isModuleModalVisible && (
         <ModuleModal
           prerequisiteNodes={selectedNodes}
+          currentTree={currentTree}
           setCurrentTree={setCurrentTree}
           setIsModuleModalVisible={setIsModuleModalVisible}
         />

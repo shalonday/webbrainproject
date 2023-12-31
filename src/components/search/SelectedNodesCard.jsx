@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledCard = styled.div`
-  max-height: 18vh;
   border: 1px solid #fff;
   border-radius: 8px;
   padding: 8px 8px;
@@ -20,12 +19,16 @@ const ListItem = styled.li`
   cursor: pointer;
 `;
 
-function SelectedNodesCard({ selectedNodes, setCurrentNode }) {
+function SelectedNodesCard({
+  selectedNodes,
+  setCurrentNode,
+  maxHeight = "18vh",
+}) {
   function focusClickedNode(e, node) {
     setCurrentNode(node);
   }
   return (
-    <StyledCard>
+    <StyledCard style={{ maxHeight: maxHeight }}>
       <ul>
         {selectedNodes?.map((node) => (
           <ListItem key={node.id} onClick={(e) => focusClickedNode(e, node)}>
