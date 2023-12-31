@@ -1,0 +1,7 @@
+.nodeInputGroup {
+  display: flex;
+}
+
+.nodeInputGroup span {
+  width: auto;
+}
