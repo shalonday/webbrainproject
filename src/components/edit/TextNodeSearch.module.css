@@ -5,3 +5,15 @@
 .nodeInputGroup span {
   width: auto;
 }
+
+.nodeSelect {
+  flex: 1;
+}
+
+.addNodeButton {
+  padding: 2px 5px 0px 5px;
+
+  width: auto;
+  border: 1px solid;
+  border-radius: 300px;
+}
