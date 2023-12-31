@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./AddNodeSection.module.css";
-import SearchNodeModal from "./SearchNodeModal";
+import GraphicalNodeSearch from "./GraphicalNodeSearch";
 import ReactSelect from "react-select";
 import MainButton from "../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
@@ -101,9 +101,9 @@ function AddNodeSection({
               />
             )}
             {searchMode === "edit" && (
-              <SearchNodeModal type="edit" currentTree={currentTree} />
+              <GraphicalNodeSearch type="edit" currentTree={currentTree} />
             )}
-            {searchMode === "univ" && <SearchNodeModal type="univ" />}
+            {searchMode === "univ" && <GraphicalNodeSearch type="univ" />}
             <div className={styles.mainButtons}>
               <MainButton>Cancel</MainButton>
               <MainButton onClick={handleAddItem}>Add</MainButton>
