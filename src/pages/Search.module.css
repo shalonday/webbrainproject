@@ -22,7 +22,7 @@
 .input {
   background: top left url(../assets/search-white.svg) no-repeat;
   border-style: solid;
-  width: min(100%, 400px);
+  width: min(100%, 810px);
   padding: 8px;
   padding-left: 30px;
   border: 1px solid #fff;
