@@ -22,10 +22,8 @@ import ReactSelect from "react-select";
 import MainButton from "../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
 function AddNodeSection({
-  nodes,
-  setNodes,
-  handleDeleteItem,
-  handleAddItem,
+  nodeDescriptions,
+  setNodeDescriptions,
   currentTree,
   type,
 }) {
@@ -35,8 +33,8 @@ function AddNodeSection({
 
   const options = [
     { value: "text", label: "Select from a dropdown or create a new node" },
-    { value: "edit", label: "Pick a node from current draft" },
-    { value: "univ", label: "Pick a node from universal tree" },
+    // { value: "edit", label: "Pick a node from current draft" },
+    // { value: "univ", label: "Pick a node from universal tree" },
   ];
 
   function openNodeSearch(e) {
@@ -44,6 +42,24 @@ function AddNodeSection({
     setIsSearchBoxVisible(true);
   }
 
+  // Int -> Effect
+  // delete item in bullets array that corresponds to index
+  function handleDeleteItem(index) {
+    setNodeDescriptions((array) => array.filter((item, i) => i !== index));
+  }
+
+  function handleAddItem(e) {
+    e.preventDefault();
+    setNodeDescriptions((array) => array.concat(tempNodes));
+    setIsSearchBoxVisible(false);
+    setTempNodes([]);
+  }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    setIsSearchBoxVisible(false);
+    setTempNodes([]);
+  }
   console.log(currentTree);
 
   return (
@@ -53,22 +69,10 @@ function AddNodeSection({
         ? "By the end of this module, the learner should be able to:"
         : "Before starting this module, the learner should already be able to:"}
       <ul className={styles.nodeList}>
-        {nodes.map((bullet, index) => (
+        {nodeDescriptions.map((bullet, index) => (
           <li key={index} className={styles.nodeInputGroup}>
             <span onClick={() => handleDeleteItem(index)}>&#10005;</span>
-            <textarea
-              className={styles.nodeTextarea}
-              rows={1}
-              value={bullet}
-              onChange={(e) => {
-                setNodes((array) =>
-                  array.map((item, i) => (i === index ? e.target.value : item))
-                ); // array == targetNodes; "item" is a bullet. This allows for changing the text in the current bullet
-              }}
-            >
-              [Phrase starting with a verb representing the skill that will be
-              learned]
-            </textarea>
+            <p>{bullet}</p>
           </li>
         ))}
         {!isSearchBoxVisible && (
@@ -122,7 +126,7 @@ function AddNodeSection({
             )}
             {searchMode === "univ" && <GraphicalNodeSearch type="univ" />}
             <div className={styles.mainButtons}>
-              <MainButton>Cancel</MainButton>
+              <MainButton onClick={handleCancel}>Cancel</MainButton>
               <MainButton onClick={handleAddItem}>Add</MainButton>
             </div>
           </>
