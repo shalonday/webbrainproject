@@ -39,36 +39,14 @@ function ModuleModal({
   // Array of links added onto Learn and Practice sections.
   const [resourcesArray, setResourcesArray] = useState([]);
 
-  // Int -> Effect
-  // delete item in bullets array that corresponds to index
-  function handleDeleteTargetItem(index) {
-    setTargetNodeDescriptions((array) =>
-      array.filter((item, i) => i !== index)
-    );
-  }
-
-  // Int -> Effect
-  // delete item in bullets array that corresponds to index
-  function handleDeletePrereqItem(index) {
-    setPrerequisiteNodeDescriptions((array) =>
-      array.filter((item, i) => i !== index)
-    );
-  }
-
-  // Open a SearchNodeModal
-  function handleAddItem(e) {
-    e.preventDefault();
-    setTargetNodeDescriptions((array) => [...array, ""]);
-  }
-
+  // Add module, skill nodes (prereq and objective), and links to currentTree
   function handleSubmit(e) {
     e.preventDefault();
 
-    const id = uuidv4();
+    const moduleId = uuidv4();
 
-    // create a module object and target nodes objects
     const newModule = {
-      id: id,
+      id: moduleId,
       type: "module",
       title: title ? title : "untitled",
       learnText: learnText,
@@ -76,14 +54,26 @@ function ModuleModal({
       resourcesArray: resourcesArray,
     };
 
-    const newIsPrerequisiteToLinks = prerequisiteNodes.map((prereqNode) => {
-      const newLink = {
+    const newPrereqNodes = prerequisiteNodeDescriptions.map((description) => {
+      const newPrereqNode = {
         id: uuidv4(),
-        source: prereqNode.id,
-        target: id,
+        title: "",
+        type: "skill",
+        description: description,
       };
-      return newLink;
+      return newPrereqNode;
     });
+
+    const newIsPrerequisiteToLinks = prerequisiteNodes
+      .concat(newPrereqNodes)
+      .map((prereqNode) => {
+        const newLink = {
+          id: uuidv4(),
+          source: prereqNode.id,
+          target: moduleId,
+        };
+        return newLink;
+      });
 
     const targetNodes = targetNodeDescriptions.map((description) => {
       const newTargetNode = {
@@ -98,13 +88,13 @@ function ModuleModal({
     const newTeachesLinks = targetNodes.map((targetNode) => {
       const newLink = {
         id: uuidv4(),
-        source: id,
+        source: moduleId,
         target: targetNode.id,
       };
       return newLink;
     });
     const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
-    const newNodes = targetNodes.concat([newModule]);
+    const newNodes = targetNodes.concat(newPrereqNodes).concat([newModule]);
 
     // set the currentTree value by adding the new nodes and links to it
     setCurrentTree((tree) => {
@@ -133,19 +123,15 @@ function ModuleModal({
           </h3>
         </fieldset>
         <AddNodeSection
-          nodes={prerequisiteNodeDescriptions}
-          setNodes={setPrerequisiteNodeDescriptions}
-          handleDeleteItem={handleDeletePrereqItem}
-          handleAddItem={handleAddItem}
+          nodeDescriptions={prerequisiteNodeDescriptions}
+          setNodeDescriptions={setPrerequisiteNodeDescriptions}
           currentTree={currentTree}
           type="prereq"
         />
 
         <AddNodeSection
-          nodes={targetNodeDescriptions}
-          setTNodes={setTargetNodeDescriptions}
-          handleDeleteItem={handleDeleteTargetItem}
-          handleAddItem={handleAddItem}
+          nodeDescriptions={targetNodeDescriptions}
+          setNodeDescriptions={setTargetNodeDescriptions}
           currentTree={currentTree}
           type="obj"
         />
