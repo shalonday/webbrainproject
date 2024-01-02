@@ -18,12 +18,15 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import { useQuery } from "@tanstack/react-query";
 import { getDraftBranchesByUserId } from "../services/apiBranches";
 import { useUser } from "../hooks/useUser";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const { user } = useUser();
+  const userId = user?.id;
   const { data: branchesByUser, error } = useQuery({
     queryKey: ["branchesByUser"],
     queryFn: () => getDraftBranchesByUserId(user.id),
+    enabled: !!userId,
   });
 
   return (
@@ -33,7 +36,9 @@ function Profile() {
         {error && <p>{error.message}</p>}
         {!error &&
           branchesByUser?.map((branch) => (
-            <li key={branch.id}>{branch.title}</li>
+            <Link key={branch.id} to={"/edit/blank"} state={{ draft: branch }}>
+              <li>{branch.title}</li>
+            </Link>
           ))}
       </ul>
     </div>

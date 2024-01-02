@@ -19,7 +19,7 @@ import styles from "./Edit.module.css";
 import { useEffect, useState } from "react";
 import { useSkillTreesContext } from "../contexts/SkillTreesContext";
 import ModuleModal from "../components/edit/ModuleModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import EditPageChart from "../components/edit/EditPageChart";
 import MainButton from "../components/MainButton";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -29,6 +29,8 @@ import {
   createDraftBranch,
   createDraftLinks,
   createDraftNodes,
+  getLinksByIdsArray,
+  getNodesByIdsArray,
 } from "../services/apiBranches";
 import toast from "react-hot-toast";
 import { useUser } from "../hooks/useUser";
@@ -59,20 +61,38 @@ function Edit() {
   const navigate = useNavigate();
   const { nodeIds } = useParams(); // string of node IDs separated by ","
 
-  const [currentTree, setCurrentTree] = useState(
-    universalTree
-      ? getNodesById(nodeIds, universalTree)
-      : { nodes: [], links: [] }
-  );
+  const [currentTree, setCurrentTree] = useState({ nodes: [], links: [] });
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [isModuleModalVisible, setIsModuleModalVisible] = useState(false);
 
+  const { user } = useUser();
+
+  // this value is set when entering the Edit screen by clicking a draft item from the user's Profile screen
+  const { state } = useLocation();
+
   useEffect(
     function () {
-      if (universalTree) setCurrentTree(getNodesById(nodeIds, universalTree));
+      async function setDisplayedTree() {
+        if (nodeIds === "blank" && state.draft) {
+          // set displayed tree to the branch draft represented in state.draft.
+          // state.draft is set when going to /edit/blank (hence nodeIds === "blank") from Profile page
+
+          const draftNodes = await getNodesByIdsArray(state.draft.nodeIds);
+          const draftLinks = await getLinksByIdsArray(state.draft.linkIds);
+
+          const draftBranch = { nodes: draftNodes, links: draftLinks };
+
+          // set current tree to the branch represented by the state.draft object
+          setCurrentTree(draftBranch);
+        } else if (universalTree) {
+          // set displayed tree to nodes in param
+          setCurrentTree(getNodesById(nodeIds, universalTree));
+        }
+      }
+      setDisplayedTree();
     },
-    [universalTree, nodeIds]
+    [universalTree, nodeIds, state.draft]
   );
 
   // mutate functions for saving a branch draft
@@ -98,8 +118,6 @@ function Edit() {
     //go back to Home page
     navigate("/");
   }
-
-  const { user } = useUser();
 
   async function handleSave() {
     const draftBranch = {

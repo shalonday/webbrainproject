@@ -60,3 +60,25 @@ export async function getDraftBranchesByUserId(userId) {
 
   return data;
 }
+
+export async function getNodesByIdsArray(nodeIdsArray) {
+  let { data, error } = await supabase
+    .from("draftNodes")
+    .select("*")
+    .in("id", nodeIdsArray);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function getLinksByIdsArray(linkIdsArray) {
+  let { data, error } = await supabase
+    .from("draftLinks")
+    .select("*")
+    .in("id", linkIdsArray);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
