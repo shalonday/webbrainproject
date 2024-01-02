@@ -62,6 +62,7 @@ function Edit() {
   const { nodeIds } = useParams(); // string of node IDs separated by ","
 
   const [currentTree, setCurrentTree] = useState({ nodes: [], links: [] });
+  const [branchTitle, setBranchTitle] = useState("");
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [isModuleModalVisible, setIsModuleModalVisible] = useState(false);
@@ -74,7 +75,7 @@ function Edit() {
   useEffect(
     function () {
       async function setDisplayedTree() {
-        if (nodeIds === "blank" && state.draft) {
+        if (nodeIds === "blank" && state?.draft) {
           // set displayed tree to the branch draft represented in state.draft.
           // state.draft is set when going to /edit/blank (hence nodeIds === "blank") from Profile page
 
@@ -92,23 +93,23 @@ function Edit() {
       }
       setDisplayedTree();
     },
-    [universalTree, nodeIds, state.draft]
+    [universalTree, nodeIds, state?.draft]
   );
 
   // mutate functions for saving a branch draft
-  const { mutate: mutateDraftNodes } = useMutation({
+  const { mutate: mutateDraftNodes, error: nodesError } = useMutation({
     mutationFn: createDraftNodes,
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
-  const { mutate: mutateDraftLinks } = useMutation({
+  const { mutate: mutateDraftLinks, error: linksError } = useMutation({
     mutationFn: createDraftLinks,
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
-  const { mutate: mutateDraftBranch } = useMutation({
+  const { mutate: mutateDraftBranch, error: branchError } = useMutation({
     mutationFn: createDraftBranch,
     onSuccess: () =>
       toast.success("Branch draft has been saved to your account"),
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
 
   async function handleSubmit() {
@@ -121,6 +122,7 @@ function Edit() {
 
   async function handleSave() {
     const draftBranch = {
+      title: branchTitle,
       nodeIds: currentTree.nodes.map((node) => node.id),
       linkIds: currentTree.links.map((link) => link.id),
       authorId: user.id,
@@ -131,11 +133,19 @@ function Edit() {
     await mutateDraftLinks(currentTree.links);
     await mutateDraftBranch(draftBranch);
 
-    navigate("/profile");
+    if (!nodesError && !linksError && !branchError) navigate("/profile");
   }
 
   return (
     <>
+      <div className={styles.inputDiv}>
+        <input
+          className={styles.input}
+          placeholder="Type a title for this branch (to be displayed in your profile page)"
+          value={branchTitle}
+          onChange={(e) => setBranchTitle(e.target.value)}
+        />
+      </div>
       <div
         className={styles.mainDiv}
         style={

@@ -15,6 +15,32 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+.input {
+  border-style: solid;
+  width: min(100%, 810px);
+  padding: 8px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
+    transform 0.1s;
+}
+
+.input:focus,
+.inputNoBackground {
+  padding-left: 8px;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+}
+
+.inputDiv {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
 .buttonDiv {
   display: flex;
   justify-content: center;
