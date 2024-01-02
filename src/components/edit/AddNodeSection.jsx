@@ -60,7 +60,6 @@ function AddNodeSection({
     setIsSearchBoxVisible(false);
     setTempNodes([]);
   }
-  console.log(currentTree);
 
   return (
     <fieldset className={styles.addNodesSection}>
@@ -91,7 +90,6 @@ function AddNodeSection({
               placeholder="How do you want to search for a skill node?"
               options={options}
               onChange={(option) => {
-                console.log(option.value);
                 setSearchMode(option.value);
               }}
               styles={{
