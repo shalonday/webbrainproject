@@ -15,8 +15,29 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { useQuery } from "@tanstack/react-query";
+import { getDraftBranchesByUserId } from "../services/apiBranches";
+import { useUser } from "../hooks/useUser";
+
 function Profile() {
-  return <div>Profile</div>;
+  const { user } = useUser();
+  const { data: branchesByUser, error } = useQuery({
+    queryKey: ["branchesByUser"],
+    queryFn: () => getDraftBranchesByUserId(user.id),
+  });
+
+  return (
+    <div>
+      Profile
+      <ul>
+        {error && <p>{error.message}</p>}
+        {!error &&
+          branchesByUser?.map((branch) => (
+            <li key={branch.id}>{branch.title}</li>
+          ))}
+      </ul>
+    </div>
+  );
 }
 
 export default Profile;

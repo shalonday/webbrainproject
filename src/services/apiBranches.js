@@ -49,3 +49,14 @@ export async function createDraftBranch(draftBranch) {
 
   return data;
 }
+
+export async function getDraftBranchesByUserId(userId) {
+  const { data, error } = await supabase
+    .from("branches")
+    .select("*")
+    .eq("authorId", userId);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
