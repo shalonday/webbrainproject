@@ -23,7 +23,7 @@ export async function createDraftNodes(draftNodesArray) {
     .insert(draftNodesArray)
     .select();
 
-  if (error) throw new Error("draft nodes could not be created");
+  if (error) throw new Error(error.message);
 
   return data;
 }
@@ -34,7 +34,7 @@ export async function createDraftLinks(draftLinksArray) {
     .insert(draftLinksArray)
     .select();
 
-  if (error) throw new Error("draft links could not be created");
+  if (error) throw new Error(error.message);
 
   return data;
 }
