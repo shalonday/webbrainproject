@@ -22,9 +22,16 @@ import ModuleModal from "../components/edit/ModuleModal";
 import { useNavigate, useParams } from "react-router-dom";
 import EditPageChart from "../components/edit/EditPageChart";
 import MainButton from "../components/MainButton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchUniversalTree } from "../services/apiTrees";
 import Loader from "../components/Loader";
+import {
+  createDraftBranch,
+  createDraftLinks,
+  createDraftNodes,
+} from "../services/apiBranches";
+import toast from "react-hot-toast";
+import { useUser } from "../hooks/useUser";
 
 // String, Tree -> Tree (nodes only)
 // get nodes by id without fetching from db
@@ -68,6 +75,22 @@ function Edit() {
     [universalTree, nodeIds]
   );
 
+  // mutate functions for saving a branch draft
+  const { mutate: mutateDraftNodes } = useMutation({
+    mutationFn: createDraftNodes,
+    onError: (err) => toast.error(err.message),
+  });
+  const { mutate: mutateDraftLinks } = useMutation({
+    mutationFn: createDraftLinks,
+    onError: (err) => toast.error(err.message),
+  });
+  const { mutate: mutateDraftBranch } = useMutation({
+    mutationFn: createDraftBranch,
+    onSuccess: () =>
+      toast.success("Branch draft has been saved to your account"),
+    onError: (err) => toast.error(err.message),
+  });
+
   async function handleSubmit() {
     // validation?
     // merge currentTree to database tree if validation passes
@@ -76,8 +99,20 @@ function Edit() {
     navigate("/");
   }
 
+  const { user } = useUser();
+
   async function handleSave() {
+    const draftBranch = {
+      nodeIds: currentTree.nodes.map((node) => node.id),
+      linkIds: currentTree.links.map((link) => link.id),
+      authorId: user.id,
+      status: "draft",
+    };
     // save a tree object to the Supabase PostgreSQL db containing the User's ID or smth
+    await mutateDraftNodes(currentTree.nodes); // if need ng validation, just fill in empty columns with null
+    await mutateDraftLinks(currentTree.links);
+    await mutateDraftBranch(draftBranch);
+
     navigate("/profile");
   }
 
