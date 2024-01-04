@@ -5,6 +5,7 @@
 // links: {source: uuid, target: uuid, id:uuid}
 //        - source and target properties are requirements for D3Chart
 
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useReducer, useState } from "react";
 
 const BASE_URL = "https://perk-api-production.up.railway.app"; //"http://localhost:3000"; //
@@ -106,19 +107,31 @@ function reducer(state, action) {
 // to manage code related to accessing the data.
 function SkillTreesContextProvider({ children }) {
   const [
-    {
-      isLoading,
-      universalTree,
-      searchResult,
-      pathResult,
-      displayedTree,
-      error,
-    },
+    { isLoading, searchResult, pathResult, displayedTree, error },
     dispatch,
   ] = useReducer(reducer, initialState);
 
   // Initial elements that will appear in Edit. These are set at Search.jsx, then accessed at Edit.jsx
   const [elementsToEdit, setElementsToEdit] = useState([]);
+
+  const {
+    isLoading: isLoadingQuery,
+    data: universalTree,
+    error: errorQuery,
+  } = useQuery({
+    queryKey: ["universalTree"],
+    queryFn: fetchUniversalTree,
+  });
+
+  async function fetchUniversalTree() {
+    try {
+      const res = await fetch(`${BASE_URL}/tree`);
+      const data = await res.json();
+      return data;
+    } catch {
+      throw new Error("There was an error fetching the universal tree");
+    }
+  }
 
   // Send query to backend, which returns a (tree with only nodesArray populated or just nodesArray???)
   // based on the search query
@@ -153,21 +166,6 @@ function SkillTreesContextProvider({ children }) {
     // Query the database for a path of nodes and links (ie tree) from
     // the startNode to the EndNode. Add aggregation functions here???
     // "/pathStart/:startNode/pathEnd/:endNode"
-  }
-
-  // arrayString is a string of UUIDs attached to each other with &'s.
-  async function getNodesById(arrayString) {
-    try {
-      dispatch({ type: "loading" });
-      const res = await fetch(`${BASE_URL}/nodes/${arrayString}`);
-      const data = await res.json();
-      dispatch({ type: "nodesById/loaded", payload: data });
-    } catch {
-      dispatch({
-        type: "rejected",
-        payload: `There was an error getting nodes by id`,
-      });
-    }
   }
 
   async function mergeTree(tree) {
@@ -220,11 +218,12 @@ function SkillTreesContextProvider({ children }) {
         searchNodes,
         searchResult,
         searchPath,
-        getNodesById,
         displayedTree,
         pathResult,
         elementsToEdit,
         setElementsToEdit,
+        isLoadingQuery,
+        errorQuery,
       }}
     >
       {children}
