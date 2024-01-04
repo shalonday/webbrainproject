@@ -19,6 +19,7 @@ import styled from "styled-components";
 import MainButton from "../components/MainButton";
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router-dom";
 
 const Form = styled.form`
   margin: auto;
@@ -96,6 +97,7 @@ function Login({ className }) {
         <PositionedMainButton onClick={handleLogin} disabled={isLoading}>
           LOG IN
         </PositionedMainButton>
+        <Link to="/signup">Sign up for an account</Link>
       </Form>
     </Div>
   );
