@@ -31,6 +31,7 @@ import GlobalStyles from "./GlobalStyles";
 import DarkTheme from "./DarkTheme";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
+import AppLayout from "./components/AppLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,17 +50,24 @@ function App() {
         <DarkTheme />
         <BrowserRouter>
           <Routes>
-            <Route index element={<Search />} />
-            <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
-
             <Route
-              path="edit/:nodeIds"
               element={
                 <ProtectedRoute>
-                  <Edit />
+                  <AppLayout />
                 </ProtectedRoute>
               }
-            />
+            >
+              <Route index element={<Search />} />
+              <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
+              <Route
+                path="edit/:nodeIds"
+                element={
+                  <ProtectedRoute>
+                    <Edit />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
 
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
