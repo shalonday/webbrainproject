@@ -35,8 +35,9 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .inputDiv {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  width: 100%;
+  padding: 20px;
+  position: absolute;
   display: flex;
   justify-content: center;
 }
