@@ -1,5 +1,4 @@
 import D3Chart from "../D3Chart";
-import styles from "./TreePageChart.module.css";
 
 function TreePageChart({
   branch,
@@ -39,7 +38,6 @@ function TreePageChart({
     <>
       <D3Chart
         tree={branch}
-        className={styles.svgContainer}
         onNodeClick={handleNodeClick}
         onNodeTouchStart={handleNodeTouchStart}
         onNodeTouchEnd={handleNodeTouchEnd}

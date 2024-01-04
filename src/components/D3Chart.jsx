@@ -163,7 +163,6 @@ function ForceGraph(
 
 export default function D3Chart({
   tree,
-  className = "",
   onNodeClick = () => {},
   onNodeTouchStart = () => {},
   onNodeTouchEnd = () => {},
@@ -198,7 +197,7 @@ export default function D3Chart({
   }, [tree]); // that viewBoxWidth and Height are here is probs the reason the chart always restarts when I click stuff
 
   return (
-    <div className={className} ref={svgContainerRef}>
+    <div className={styles.svgContainer} ref={svgContainerRef}>
       <svg
         ref={svgRef}
         viewBox={`0 0 400 400`}

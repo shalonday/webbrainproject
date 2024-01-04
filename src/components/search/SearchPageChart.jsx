@@ -18,7 +18,6 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import { useEffect, useRef, useState } from "react";
 import { useSkillTreesContext } from "../../contexts/SkillTreesContext";
 import D3Chart from "../D3Chart";
-import styles from "./SearchPageChart.module.css";
 
 function SearchPageChart({
   universalTree,
@@ -118,7 +117,6 @@ function SearchPageChart({
         onNodeClick={handleNodeClick}
         onNodeTouchStart={handleNodeTouchStart}
         onNodeTouchEnd={handleNodeTouchEnd}
-        className={styles.svgContainer}
         selectedNodeIds={selectedNodeIds.current}
         currentNode={currentNode}
       />

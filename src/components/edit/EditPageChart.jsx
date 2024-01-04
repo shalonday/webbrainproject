@@ -16,7 +16,6 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import D3Chart from "../D3Chart";
-import styles from "./EditPageChart.module.css";
 
 function EditPageChart({
   currentTree,
@@ -115,7 +114,6 @@ function EditPageChart({
         onNodeClick={handleNodeClick}
         onNodeTouchStart={handleNodeTouchStart}
         onNodeTouchEnd={handleNodeTouchEnd}
-        className={styles.svgContainer}
         selectedNodeIds={selectedNodes.map((node) => node.id)}
       />
     </>

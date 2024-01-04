@@ -18,3 +18,8 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 .selected {
   filter: drop-shadow(16px 16px 20px red) invert(75%);
 }
+
+.svgContainer {
+  height: 85vh;
+  width: 100vw;
+}
