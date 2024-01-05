@@ -50,13 +50,7 @@ function App() {
         <DarkTheme />
         <BrowserRouter>
           <Routes>
-            <Route
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
+            <Route element={<AppLayout />}>
               <Route index element={<Search />} />
               <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
               <Route
@@ -71,7 +65,14 @@ function App() {
 
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="profile" element={<Profile />} />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
