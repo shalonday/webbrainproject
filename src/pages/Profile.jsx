@@ -34,7 +34,7 @@ function Profile() {
   return (
     <div>
       <Avatar />
-      <BranchList>
+      <BranchList title={"Draft Branches"}>
         {error && <p>{error.message}</p>}
         {!error &&
           branchesByUser?.map((branch) => (
