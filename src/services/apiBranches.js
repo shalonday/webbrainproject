@@ -54,7 +54,8 @@ export async function getDraftBranchesByUserId(userId) {
   const { data, error } = await supabase
     .from("branches")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .eq("status", "draft");
 
   if (error) throw new Error(error.message);
 
