@@ -20,8 +20,6 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
   box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
-  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
-    "Helvetica Neue", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 20px;
