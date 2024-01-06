@@ -14,7 +14,9 @@ const StyledHeader = styled.header`
   align-items: center;
 `;
 
-const H1 = styled.h2``;
+const H1 = styled.h2`
+  cursor: pointer;
+`;
 
 const IconDiv = styled.div`
   cursor: pointer;
@@ -40,7 +42,7 @@ function Header() {
   }
   return (
     <StyledHeader>
-      <H1>The Online Brain Project</H1>
+      <H1 onClick={() => navigate("/")}>The Online Brain Project</H1>
       <IconDiv>{user && <HiUser onClick={toggleOptions} />}</IconDiv>
       {user && areOptionsVisible && (
         <ul>
