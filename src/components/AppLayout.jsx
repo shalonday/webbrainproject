@@ -9,6 +9,7 @@ const StyledAppLayout = styled.div`
 `;
 
 const Main = styled.main`
+  position: relative;
   background-color: var(--color-grey-50);
 `;
 

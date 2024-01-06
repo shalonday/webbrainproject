@@ -34,6 +34,7 @@ import {
 } from "../services/apiBranches";
 import toast from "react-hot-toast";
 import { useUser } from "../hooks/useUser";
+import NodeDescription from "../components/NodeDescription";
 
 // String, Tree -> Tree (nodes only)
 // get nodes by id without fetching from db
@@ -146,21 +147,13 @@ function Edit() {
           onChange={(e) => setBranchTitle(e.target.value)}
         />
       </div>
+      <NodeDescription currentNode={currentNode} />
       <div
         className={styles.mainDiv}
         style={
           isModuleModalVisible ? { display: "none" } : { display: "block" }
         }
       >
-        <div
-          className={styles.nodeDescription}
-          style={{ display: currentNode ? "block" : "none" }}
-        >
-          <div>
-            <h3>{currentNode?.title}</h3>
-          </div>
-          <p>{currentNode?.description}</p>
-        </div>
         {isLoading && nodeIds !== "blank" && <Loader />}
         {error && <h1>{error}</h1>}
         {!isLoading && !error && currentTree && (
