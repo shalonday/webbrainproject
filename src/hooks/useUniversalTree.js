@@ -15,26 +15,18 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
-.nodeDescription {
-  position: absolute;
-  top: 10px;
-  font-size: 1rem;
-  text-align: center;
-  width: 100%;
-}
+import { useQuery } from "@tanstack/react-query";
+import { fetchUniversalTree } from "../services/apiTrees";
 
-.nodeDescriptionEditing {
-  position: absolute;
-  top: 60px;
-  font-size: 1rem;
-  text-align: center;
-  width: 100%;
-}
+export function useUniversalTree() {
+  const {
+    isLoading,
+    data: universalTree,
+    error,
+  } = useQuery({
+    queryKey: ["universalTree"],
+    queryFn: fetchUniversalTree,
+  });
 
-.nodeDescription > div {
-  margin-bottom: 10px;
-}
-
-.nodeDescription p {
-  margin: 0;
+  return { universalTree, isLoading, error };
 }

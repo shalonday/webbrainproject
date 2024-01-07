@@ -48,8 +48,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
   gap: 10px;
 }
 
-.plusButton {
-  display: block;
+.button {
   border: none;
   background-color: transparent;
   font-size: 3rem;
@@ -78,7 +77,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 .submitDiv {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 10px;
   padding: 20px;
   position: fixed;
   bottom: 0px;

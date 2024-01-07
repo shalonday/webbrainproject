@@ -15,16 +15,45 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import styled from "styled-components";
 import styles from "./NodeDescription.module.css";
-function NodeDescription({ currentNode }) {
+import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+function NodeDescription({ currentNode, isEditing = false }) {
   return (
-    <div className={styles.nodeDescription}>
+    <div
+      className={
+        isEditing ? styles.nodeDescriptionEditing : styles.nodeDescription
+      }
+    >
       <div>
         <h3>{currentNode?.title}</h3>
       </div>
       <p>{currentNode?.description}</p>
+      {currentNode && isEditing && (
+        <ButtonsDiv>
+          <ToolButton>
+            <HiOutlinePencil />
+          </ToolButton>
+          <ToolButton>
+            <HiOutlineTrash />
+          </ToolButton>
+        </ButtonsDiv>
+      )}
     </div>
   );
 }
+
+const ButtonsDiv = styled.div`
+  position: relative;
+  top: 0px;
+  left: 50px;
+`;
+
+const ToolButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 1em;
+  cursor: pointer;
+`;
 
 export default NodeDescription;

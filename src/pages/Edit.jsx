@@ -22,40 +22,19 @@ import ModuleModal from "../components/edit/ModuleModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import EditPageChart from "../components/edit/EditPageChart";
 import MainButton from "../components/MainButton";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchUniversalTree } from "../services/apiTrees";
 import Loader from "../components/Loader";
 import {
-  createDraftBranch,
-  createDraftLinks,
-  createDraftNodes,
   getLinksByIdsArray,
   getNodesByIdsArray,
 } from "../services/apiBranches";
-import toast from "react-hot-toast";
-import { useUser } from "../hooks/useUser";
 import NodeDescription from "../components/NodeDescription";
-
-// String, Tree -> Tree (nodes only)
-// get nodes by id without fetching from db
-function getNodesById(nodeIdString, tree) {
-  if (nodeIdString === "blank") return { nodes: [], links: [] };
-  else {
-    const idsArray = nodeIdString.split(",");
-    const nodesArray = tree.nodes.filter((node) => idsArray.includes(node.id));
-    return { nodes: nodesArray, links: [] };
-  }
-}
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import { useUniversalTree } from "../hooks/useUniversalTree";
+import SaveAsDraftButton from "../components/edit/SaveAsDraftButton";
+import styled from "styled-components";
 
 function Edit() {
-  const {
-    isLoading,
-    data: universalTree,
-    error,
-  } = useQuery({
-    queryKey: ["universalTree"],
-    queryFn: fetchUniversalTree,
-  });
+  const { isLoading, data: universalTree, error } = useUniversalTree();
 
   const { mergeTree } = useSkillTreesContext();
 
@@ -67,8 +46,6 @@ function Edit() {
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [isModuleModalVisible, setIsModuleModalVisible] = useState(false);
-
-  const { user } = useUser();
 
   // this value is set when entering the Edit screen by clicking a draft item from the user's Profile screen
   const { state } = useLocation();
@@ -97,22 +74,6 @@ function Edit() {
     [universalTree, nodeIds, state?.draft]
   );
 
-  // mutate functions for saving a branch draft
-  const { mutate: mutateDraftNodes, error: nodesError } = useMutation({
-    mutationFn: createDraftNodes,
-    onError: (err) => console.error(err.message),
-  });
-  const { mutate: mutateDraftLinks, error: linksError } = useMutation({
-    mutationFn: createDraftLinks,
-    onError: (err) => console.error(err.message),
-  });
-  const { mutate: mutateDraftBranch, error: branchError } = useMutation({
-    mutationFn: createDraftBranch,
-    onSuccess: () =>
-      toast.success("Branch draft has been saved to your account"),
-    onError: (err) => console.error(err.message),
-  });
-
   async function handleSubmit() {
     // validation?
     // merge currentTree to database tree if validation passes
@@ -121,33 +82,23 @@ function Edit() {
     navigate("/");
   }
 
-  async function handleSave() {
-    const draftBranch = {
-      title: branchTitle,
-      nodeIds: currentTree.nodes.map((node) => node.id),
-      linkIds: currentTree.links.map((link) => link.id),
-      authorId: user.id,
-      status: "draft",
-    };
-    // save a tree object to the Supabase PostgreSQL db containing the User's ID or smth
-    await mutateDraftNodes(currentTree.nodes); // if need ng validation, just fill in empty columns with null
-    await mutateDraftLinks(currentTree.links);
-    await mutateDraftBranch(draftBranch);
-
-    if (!nodesError && !linksError && !branchError) navigate("/profile");
-  }
-
   return (
     <>
       <div className={styles.inputDiv}>
         <input
           className={styles.input}
-          placeholder="Type a title for this branch (to be displayed in your profile page)"
+          placeholder={
+            state?.draft?.title
+              ? state.draft.title
+              : "Type a title for this branch (to be displayed in your profile page)"
+          }
           value={branchTitle}
           onChange={(e) => setBranchTitle(e.target.value)}
         />
       </div>
-      <NodeDescription currentNode={currentNode} />
+      <div>
+        <NodeDescription currentNode={currentNode} isEditing={true} />
+      </div>
       <div
         className={styles.mainDiv}
         style={
@@ -166,15 +117,16 @@ function Edit() {
         )}
 
         <div className={styles.submitDiv}>
-          <button
-            className={styles.plusButton}
-            onClick={setIsModuleModalVisible}
-          >
-            +
-          </button>
-
           <div className={styles.buttonDiv}>
-            <MainButton onClick={handleSave}>Save As Draft</MainButton>
+            <PlusButton onClick={setIsModuleModalVisible}>
+              <HiOutlinePlusCircle />
+            </PlusButton>
+          </div>
+          <div className={styles.buttonDiv}>
+            <SaveAsDraftButton
+              currentTree={currentTree}
+              branchTitle={branchTitle}
+            />
             <MainButton onClick={handleSubmit}>Submit</MainButton>
           </div>
         </div>
@@ -189,6 +141,24 @@ function Edit() {
       )}
     </>
   );
+}
+
+const PlusButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 3em;
+  cursor: pointer;
+`;
+
+// String, Tree -> Tree (nodes only)
+// get nodes by id without fetching from db
+function getNodesById(nodeIdString, tree) {
+  if (nodeIdString === "blank") return { nodes: [], links: [] };
+  else {
+    const idsArray = nodeIdString.split(",");
+    const nodesArray = tree.nodes.filter((node) => idsArray.includes(node.id));
+    return { nodes: nodesArray, links: [] };
+  }
 }
 
 export default Edit;
