@@ -35,10 +35,10 @@ function ForceGraph(
   gLinkRef,
   gNodeRef,
   viewBoxWidth = 400,
-  viewBoxHeight = 400,
-  onNodeClick,
-  onNodeTouchStart,
-  onNodeTouchEnd
+  viewBoxHeight = 400
+  // onNodeClick,
+  // onNodeTouchStart,
+  // onNodeTouchEnd
 ) {
   // Specify the dimensions of the chart.
 
@@ -95,7 +95,7 @@ function ForceGraph(
       if (d.type === "module") return RADIUS / 2;
       else return RADIUS / 2;
     })
-    .on("click", onNodeClick) // has to be before the "call" in order to work for some reason.
+    // .on("click", onNodeClick) // has to be before the "call" in order to work for some reason.
     .call(drag(simulation));
   function ticked() {
     link
@@ -135,7 +135,7 @@ function ForceGraph(
   // this allows the nodes to be draggable.
   function drag(simulation) {
     function dragstarted(event) {
-      onNodeTouchStart(event); // put the touch events within the drag events because I don't know how to trigger the longtouch otherwise
+      // onNodeTouchStart(event); // put the touch events within the drag events because I don't know how to trigger the longtouch otherwise
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
@@ -147,7 +147,7 @@ function ForceGraph(
     }
 
     function dragended(event) {
-      onNodeTouchEnd(event);
+      // onNodeTouchEnd(event);
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
       event.subject.fy = null;
@@ -230,12 +230,13 @@ export default function D3Chart({
           <g ref={gNodeRef}>
             {tree.nodes.map((node) => (
               <circle
+                onClick={onNodeClick}
+                onTouchStart={onNodeTouchStart}
+                onTouchEnd={onNodeTouchEnd}
                 key={node.id}
                 strokeWidth={1.5}
                 className={
-                  selectedNodeIds.includes(node.id)
-                    ? styles.selected
-                    : `${selectedNodeIds.includes(node.id)}`
+                  selectedNodeIds.includes(node.id) ? styles.selected : ""
                 }
               >
                 {currentNode && currentNode?.id === node.id && (
