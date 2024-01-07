@@ -23,14 +23,6 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
   width: 100%;
 }
 
-.nodeDescriptionEditing {
-  position: absolute;
-  top: 60px;
-  font-size: 1rem;
-  text-align: center;
-  width: 100%;
-}
-
 .nodeDescription > div {
   margin-bottom: 10px;
 }

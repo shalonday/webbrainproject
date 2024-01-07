@@ -28,7 +28,11 @@ import {
   getNodesByIdsArray,
 } from "../services/apiBranches";
 import NodeDescription from "../components/NodeDescription";
-import { HiOutlinePlusCircle } from "react-icons/hi";
+import {
+  HiOutlinePencil,
+  HiOutlinePlusCircle,
+  HiOutlineTrash,
+} from "react-icons/hi";
 import { useUniversalTree } from "../hooks/useUniversalTree";
 import SaveAsDraftButton from "../components/edit/SaveAsDraftButton";
 import styled from "styled-components";
@@ -97,7 +101,21 @@ function Edit() {
         />
       </div>
       <div>
-        <NodeDescription currentNode={currentNode} isEditing={true} />
+        <NodeDescription
+          currentNode={currentNode}
+          className={styles.nodeDescriptionEditing}
+        >
+          {currentNode && (
+            <ButtonsDiv>
+              <ToolButton>
+                <HiOutlinePencil />
+              </ToolButton>
+              <ToolButton>
+                <HiOutlineTrash />
+              </ToolButton>
+            </ButtonsDiv>
+          )}
+        </NodeDescription>
       </div>
       <div
         className={styles.mainDiv}
@@ -147,6 +165,19 @@ const PlusButton = styled.button`
   border: none;
   background-color: transparent;
   font-size: 3em;
+  cursor: pointer;
+`;
+
+const ButtonsDiv = styled.div`
+  position: relative;
+  top: 0px;
+  left: 50px;
+`;
+
+const ToolButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 1em;
   cursor: pointer;
 `;
 
