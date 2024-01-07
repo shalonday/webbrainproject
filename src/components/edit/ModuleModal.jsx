@@ -18,8 +18,8 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import "@mdxeditor/editor/style.css";
 import { Suspense, useState } from "react";
 import styles from "./ModuleModal.module.css";
-import AddNodeSection from "./AddNodeSection";
-import MainTextSection from "./MainTextSection";
+import AddNodeSection from "./module-modal/AddNodeSection";
+import MainTextSection from "./module-modal/MainTextSection";
 import { uuidv4 } from "../../utils";
 import Loader from "../Loader";
 

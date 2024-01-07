@@ -19,7 +19,7 @@ import { useState } from "react";
 import styles from "./AddNodeSection.module.css";
 import GraphicalNodeSearch from "./GraphicalNodeSearch";
 import ReactSelect from "react-select";
-import MainButton from "../MainButton";
+import MainButton from "../../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
 function AddNodeSection({
   nodeDescriptions,

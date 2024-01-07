@@ -17,13 +17,13 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 
 import styles from "./GraphicalNodeSearch.module.css";
 import { useState } from "react";
-import MainButton from "../MainButton";
-import Loader from "../Loader";
-import { fetchUniversalTree } from "../../services/apiTrees";
+import MainButton from "../../MainButton";
+import Loader from "../../Loader";
+import { fetchUniversalTree } from "../../../services/apiTrees";
 import { useQuery } from "@tanstack/react-query";
-import SelectedNodesCard from "../search/SelectedNodesCard";
+import SelectedNodesCard from "../../search/SelectedNodesCard";
 import toast from "react-hot-toast";
-import SearchModalChart from "./SearchModalChart";
+import SearchModalChart from "../SearchModalChart";
 
 function GraphicalNodeSearch({ type, currentTree }) {
   const {
