@@ -60,7 +60,6 @@ function ModuleModal({
   );
 
   // Add module, skill nodes (prereq and objective), and links to currentTree
-
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -79,111 +78,32 @@ function ModuleModal({
     );
 
     if (moduleToUpdate) {
-      //updating an existing module
-
-      const moduleId = moduleToUpdate.id;
-      const updatedModule = {
-        ...moduleToUpdate,
-        title: title,
-        learnText: learnText,
-        practiceText: practiceText,
-        resourcesArray: resourcesArray,
-      };
-
-      // add links for each node in prerequisiteNodes that doesn't have an isPrerequisiteTo link to this module
-      const newIsPrerequisiteToLinks = prerequisiteNodes
-        .filter(
-          (prereqNode) =>
-            !isNodeLinkedAsPrereqToModule(
-              prereqNode,
-              moduleToUpdate,
-              currentTree
-            )
-        )
-        .map((prereqNode) => {
-          const newLink = {
-            id: uuidv4(),
-            source: prereqNode.id,
-            target: moduleId,
-          };
-          return newLink;
-        });
-
-      const newTeachesLinks = objectiveNodes
-        .filter(
-          (objNode) =>
-            !isNodeLinkedAsObjToModule(objNode, moduleToUpdate, currentTree)
-        )
-        .map((targetNode) => {
-          const newLink = {
-            id: uuidv4(),
-            source: moduleId,
-            target: targetNode.id,
-          };
-          return newLink;
-        });
-
-      const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
-      const newNodes = newTargetNodes.concat(newPrereqNodes);
-
-      const removedPrereqNodes = presetPrereqNodes.filter(
-        (presetNode) =>
-          !prerequisiteNodes.map((node) => node.id).includes(presetNode.id)
-      );
-
-      const removedObjNodes = presetObjNodes.filter(
-        (presetNode) =>
-          !objectiveNodes.map((node) => node.id).includes(presetNode.id)
-      );
-
-      // links connected to prereqNodes that were removed. We can delete links because they don't contain data,
-      // but nodes should be deleted in another way.
-      const isPrerequisiteToLinksToDelete = currentTree.links.filter(
-        (link) =>
-          removedPrereqNodes.map((node) => node.id).includes(link.source) &&
-          link.target === moduleId
-      );
-
-      // links connected to objNodes that were removed
-      const teachesLinksToDelete = currentTree.links.filter(
-        (link) =>
-          removedObjNodes.map((node) => node.id).includes(link.target) &&
-          link.source === moduleId
-      );
-
-      const linksToDelete =
-        isPrerequisiteToLinksToDelete.concat(teachesLinksToDelete);
-
-      setCurrentTree((tree) => {
-        const newTree = {
-          nodes: tree.nodes
-            .map((node) => (node.id === moduleId ? updatedModule : node)) // add this updated module
-            .concat(newNodes),
-          links: tree.links
-            .filter((link) => !linksToDelete.map((i) => i.id).includes(link.id))
-            .concat(newLinks),
-        };
-
-        //test:
-        // adding new nodes (and links)
-        // removing links
-
-        return newTree;
-      });
+      submitUpdatedModule(newPrereqNodes.concat(newTargetNodes));
     } else {
-      //creating a new module !!!
-      const moduleId = uuidv4();
+      submitNewModule(newPrereqNodes.concat(newTargetNodes));
+    }
 
-      const newModule = {
-        id: moduleId,
-        type: "module",
-        title: title ? title : "untitled",
-        learnText: learnText,
-        practiceText: practiceText,
-        resourcesArray: resourcesArray,
-      };
+    // close the modal
+    setIsModuleModalVisible(false);
+  }
 
-      const newIsPrerequisiteToLinks = prerequisiteNodes.map((prereqNode) => {
+  function submitUpdatedModule(newNodes) {
+    const moduleId = moduleToUpdate.id;
+    const updatedModule = {
+      ...moduleToUpdate,
+      title: title,
+      learnText: learnText,
+      practiceText: practiceText,
+      resourcesArray: resourcesArray,
+    };
+
+    // add links for each node in prerequisiteNodes that doesn't have an isPrerequisiteTo link to this module
+    const newIsPrerequisiteToLinks = prerequisiteNodes
+      .filter(
+        (prereqNode) =>
+          !isNodeLinkedAsPrereqToModule(prereqNode, moduleToUpdate, currentTree)
+      )
+      .map((prereqNode) => {
         const newLink = {
           id: uuidv4(),
           source: prereqNode.id,
@@ -192,7 +112,12 @@ function ModuleModal({
         return newLink;
       });
 
-      const newTeachesLinks = objectiveNodes.map((targetNode) => {
+    const newTeachesLinks = objectiveNodes
+      .filter(
+        (objNode) =>
+          !isNodeLinkedAsObjToModule(objNode, moduleToUpdate, currentTree)
+      )
+      .map((targetNode) => {
         const newLink = {
           id: uuidv4(),
           source: moduleId,
@@ -200,22 +125,90 @@ function ModuleModal({
         };
         return newLink;
       });
-      const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
-      const newNodes = objectiveNodes
-        .concat(newPrereqNodes)
-        .concat([newModule]);
 
-      setCurrentTree((tree) => {
-        const newTree = {
-          nodes: tree.nodes.concat(newNodes),
-          links: tree.links.concat(newLinks),
-        };
-        return newTree;
-      });
-    }
+    const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
 
-    // close the modal
-    setIsModuleModalVisible(false);
+    const removedPrereqNodes = presetPrereqNodes.filter(
+      (presetNode) =>
+        !prerequisiteNodes.map((node) => node.id).includes(presetNode.id)
+    );
+
+    const removedObjNodes = presetObjNodes.filter(
+      (presetNode) =>
+        !objectiveNodes.map((node) => node.id).includes(presetNode.id)
+    );
+
+    // links connected to prereqNodes that were removed. We can delete links because they don't contain data,
+    // but nodes should be deleted in another way.
+    const isPrerequisiteToLinksToDelete = currentTree.links.filter(
+      (link) =>
+        removedPrereqNodes.map((node) => node.id).includes(link.source) &&
+        link.target === moduleId
+    );
+
+    // links connected to objNodes that were removed
+    const teachesLinksToDelete = currentTree.links.filter(
+      (link) =>
+        removedObjNodes.map((node) => node.id).includes(link.target) &&
+        link.source === moduleId
+    );
+
+    const linksToDelete =
+      isPrerequisiteToLinksToDelete.concat(teachesLinksToDelete);
+
+    setCurrentTree((tree) => {
+      const newTree = {
+        nodes: tree.nodes
+          .map((node) => (node.id === moduleId ? updatedModule : node)) // add this updated module
+          .concat(newNodes),
+        links: tree.links
+          .filter((link) => !linksToDelete.map((i) => i.id).includes(link.id))
+          .concat(newLinks),
+      };
+      return newTree;
+    });
+  }
+
+  function submitNewModule(newSkillNodes) {
+    //creating a new module !!!
+    const moduleId = uuidv4();
+
+    const newModule = {
+      id: moduleId,
+      type: "module",
+      title: title ? title : "untitled",
+      learnText: learnText,
+      practiceText: practiceText,
+      resourcesArray: resourcesArray,
+    };
+
+    const newIsPrerequisiteToLinks = prerequisiteNodes.map((prereqNode) => {
+      const newLink = {
+        id: uuidv4(),
+        source: prereqNode.id,
+        target: moduleId,
+      };
+      return newLink;
+    });
+
+    const newTeachesLinks = objectiveNodes.map((targetNode) => {
+      const newLink = {
+        id: uuidv4(),
+        source: moduleId,
+        target: targetNode.id,
+      };
+      return newLink;
+    });
+    const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
+    const newNodes = newSkillNodes.concat([newModule]);
+
+    setCurrentTree((tree) => {
+      const newTree = {
+        nodes: tree.nodes.concat(newNodes),
+        links: tree.links.concat(newLinks),
+      };
+      return newTree;
+    });
   }
 
   function handleExit(e) {
