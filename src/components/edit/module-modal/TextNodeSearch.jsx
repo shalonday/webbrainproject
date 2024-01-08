@@ -18,23 +18,33 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import CreatableSelect from "react-select/creatable";
 import styles from "./TextNodeSearch.module.css";
 
-function TextNodeSearch({ tempNodes, setTempNodes, currentTree }) {
+function TextNodeSearch({
+  tempNodesOrDescriptions,
+  setTempNodesOrDescriptions,
+  currentTree,
+}) {
   function addTempNode(e) {
     e.preventDefault();
-    setTempNodes((array) => [...array, ""]);
+    setTempNodesOrDescriptions((array) => [...array, ""]);
   }
 
   function handleDeleteTempItem(index) {
-    setTempNodes((array) => array.filter((item, i) => i !== index));
+    setTempNodesOrDescriptions((array) =>
+      array.filter((item, i) => i !== index)
+    );
   }
 
-  const currentTreeNodeOptions = currentTree.nodes.map((node) => {
-    return { value: node.description, label: node.description };
-  });
+  const currentTreeNodeOptions = currentTree.nodes
+    .filter((node) => node.type === "skill")
+    .map((node) => {
+      return { value: node, label: node.description };
+    });
 
+  console.log(tempNodesOrDescriptions);
+  console.log(currentTreeNodeOptions);
   return (
     <>
-      {tempNodes.map((bullet, index) => (
+      {tempNodesOrDescriptions.map((bullet, index) => (
         <li key={index} className={styles.nodeInputGroup}>
           <span onClick={() => handleDeleteTempItem(index)}>&#10005;</span>
           <CreatableSelect
@@ -43,7 +53,7 @@ function TextNodeSearch({ tempNodes, setTempNodes, currentTree }) {
             styles={textSearchStyles}
             options={currentTreeNodeOptions}
             onChange={(e) => {
-              setTempNodes((array) =>
+              setTempNodesOrDescriptions((array) =>
                 array.map((item, i) => (i === index ? e.value : item))
               );
             }}

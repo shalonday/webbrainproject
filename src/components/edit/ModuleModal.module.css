@@ -51,6 +51,11 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
   margin-top: 0px;
 }
 
+.exitDiv button {
+  border: none;
+  font-size: 1.5rem;
+}
+
 .submitButtonDiv {
   flex: 1;
   position: fixed;

@@ -35,3 +35,23 @@ export function buildParamStringFromArray(array) {
   if (array.length === 0) string = "blank";
   return string;
 }
+
+// Node (Type Module), Tree/Branch -> Node[] (Type Skill)
+export function getPrerequisiteNodes(module, tree) {
+  const incomingLinks = tree.links.filter((link) => link.target === module.id);
+  const prerequisiteNodeIdsArray = incomingLinks.map((link) => link.source);
+  const prerequisiteNodes = tree.nodes.filter((node) =>
+    prerequisiteNodeIdsArray.includes(node.id)
+  );
+  return prerequisiteNodes;
+}
+
+// Node (Type Module), Tree/Branch -> Node[] (Type Skill)
+export function getObjectiveNodes(module, tree) {
+  const outgoingLinks = tree.links.filter((link) => link.source === module.id);
+  const objectiveNodeIdsArray = outgoingLinks.map((link) => link.target);
+  const objectiveNodes = tree.nodes.filter((node) =>
+    objectiveNodeIdsArray.includes(node.id)
+  );
+  return objectiveNodes;
+}

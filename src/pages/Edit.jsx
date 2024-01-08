@@ -28,17 +28,14 @@ import {
   getNodesByIdsArray,
 } from "../services/apiBranches";
 import NodeDescription from "../components/NodeDescription";
-import {
-  HiOutlinePencil,
-  HiOutlinePlusCircle,
-  HiOutlineTrash,
-} from "react-icons/hi";
+import { HiOutlinePlusCircle, HiOutlineTrash } from "react-icons/hi";
 import { useUniversalTree } from "../hooks/useUniversalTree";
 import SaveAsDraftButton from "../components/edit/SaveAsDraftButton";
 import styled from "styled-components";
+import UpdateButton from "../components/edit/UpdateButton";
 
 function Edit() {
-  const { isLoading, data: universalTree, error } = useUniversalTree();
+  const { isLoading, universalTree, error } = useUniversalTree();
 
   const { mergeTree } = useSkillTreesContext();
 
@@ -49,11 +46,13 @@ function Edit() {
   const [branchTitle, setBranchTitle] = useState("");
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
-  const [isModuleModalVisible, setIsModuleModalVisible] = useState(false);
+  const [isAddingModule, setIsAddingModule] = useState(false); // true when the plus button was pressed. if true open an empty ModuleModal or with selectedNodes as preset prerequisites
+  const [isUpdatingModule, setIsUpdatingModule] = useState(false); // true when Update button was clicked while a module is selected. if true open ModuleModal with preset values
 
   // this value is set when entering the Edit screen by clicking a draft item from the user's Profile screen
   const { state } = useLocation();
-
+  console.log(state);
+  console.log(currentTree);
   useEffect(
     function () {
       async function setDisplayedTree() {
@@ -63,7 +62,6 @@ function Edit() {
 
           const draftNodes = await getNodesByIdsArray(state.draft.nodeIds);
           const draftLinks = await getLinksByIdsArray(state.draft.linkIds);
-
           const draftBranch = { nodes: draftNodes, links: draftLinks };
 
           // set current tree to the branch represented by the state.draft object
@@ -84,6 +82,11 @@ function Edit() {
     await mergeTree(currentTree);
     //go back to Home page
     navigate("/");
+  }
+
+  function handleDeleteClick() {
+    //open an alert or modal to ask user if they're sure because this will delete relationships too
+    //upon clicking ok on that modal, delete the node and relationships attached to it (not yet at the database because database mutation should only happen upon submit)
   }
 
   return (
@@ -107,10 +110,11 @@ function Edit() {
         >
           {currentNode && (
             <ButtonsDiv>
-              <ToolButton>
-                <HiOutlinePencil />
-              </ToolButton>
-              <ToolButton>
+              <UpdateButton
+                currentNodeType={currentNode.type}
+                setIsUpdatingModule={setIsUpdatingModule}
+              />
+              <ToolButton onClick={handleDeleteClick}>
                 <HiOutlineTrash />
               </ToolButton>
             </ButtonsDiv>
@@ -120,7 +124,9 @@ function Edit() {
       <div
         className={styles.mainDiv}
         style={
-          isModuleModalVisible ? { display: "none" } : { display: "block" }
+          isAddingModule || isUpdatingModule // don't display if ModuleModal is open
+            ? { display: "none" }
+            : { display: "block" }
         }
       >
         {isLoading && nodeIds !== "blank" && <Loader />}
@@ -136,7 +142,7 @@ function Edit() {
 
         <div className={styles.submitDiv}>
           <div className={styles.buttonDiv}>
-            <PlusButton onClick={setIsModuleModalVisible}>
+            <PlusButton onClick={setIsAddingModule}>
               <HiOutlinePlusCircle />
             </PlusButton>
           </div>
@@ -149,12 +155,20 @@ function Edit() {
           </div>
         </div>
       </div>
-      {isModuleModalVisible && (
+      {isUpdatingModule && (
+        <ModuleModal
+          moduleToUpdate={currentNode.type === "module" ? currentNode : null}
+          currentTree={currentTree}
+          setCurrentTree={setCurrentTree}
+          setIsModuleModalVisible={setIsUpdatingModule}
+        />
+      )}
+      {isAddingModule && (
         <ModuleModal
           prerequisiteNodes={selectedNodes}
           currentTree={currentTree}
           setCurrentTree={setCurrentTree}
-          setIsModuleModalVisible={setIsModuleModalVisible}
+          setIsModuleModalVisible={setIsAddingModule}
         />
       )}
     </>

@@ -20,53 +20,170 @@ import { Suspense, useState } from "react";
 import styles from "./ModuleModal.module.css";
 import AddNodeSection from "./module-modal/AddNodeSection";
 import MainTextSection from "./module-modal/MainTextSection";
-import { uuidv4 } from "../../utils";
+import { getObjectiveNodes, getPrerequisiteNodes, uuidv4 } from "../../utils";
 import Loader from "../Loader";
 
 function ModuleModal({
-  prerequisiteNodes,
+  moduleToUpdate = null,
   currentTree,
   setCurrentTree,
   setIsModuleModalVisible,
 }) {
-  const [title, setTitle] = useState("");
-  const [targetNodeDescriptions, setTargetNodeDescriptions] = useState([]);
-  const [prerequisiteNodeDescriptions, setPrerequisiteNodeDescriptions] =
-    useState(prerequisiteNodes.map((node) => node.description));
-  const [learnText, setLearnText] = useState("");
-  const [practiceText, setPracticeText] = useState("");
+  console.log(moduleToUpdate);
+
+  const presetPrereqNodes = moduleToUpdate
+    ? getPrerequisiteNodes(moduleToUpdate, currentTree)
+    : null;
+  const presetObjNodes = moduleToUpdate
+    ? getObjectiveNodes(moduleToUpdate, currentTree)
+    : null;
+
+  const [title, setTitle] = useState(
+    moduleToUpdate ? moduleToUpdate.title : ""
+  );
+  const [objectiveNodes, setObjectiveNodes] = useState(
+    moduleToUpdate ? presetObjNodes : []
+  );
+  const [prerequisiteNodes, setPrerequisiteNodes] = useState(
+    moduleToUpdate ? presetPrereqNodes : []
+  );
+  const [learnText, setLearnText] = useState(
+    moduleToUpdate ? moduleToUpdate.learnText : ""
+  );
+  const [practiceText, setPracticeText] = useState(
+    moduleToUpdate ? moduleToUpdate.practiceText : ""
+  );
 
   // Array of links added onto Learn and Practice sections.
-  const [resourcesArray, setResourcesArray] = useState([]);
+  const [resourcesArray, setResourcesArray] = useState(
+    moduleToUpdate ? moduleToUpdate.resourcesArray : []
+  );
 
   // Add module, skill nodes (prereq and objective), and links to currentTree
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    const moduleId = uuidv4();
+    const newPrereqNodes = prerequisiteNodes.filter(
+      (node) =>
+        !currentTree.nodes
+          .map((existingNode) => existingNode.id)
+          .includes(node.id)
+    );
 
-    const newModule = {
-      id: moduleId,
-      type: "module",
-      title: title ? title : "untitled",
-      learnText: learnText,
-      practiceText: practiceText,
-      resourcesArray: resourcesArray,
-    };
+    const newTargetNodes = objectiveNodes.filter(
+      (node) =>
+        !currentTree.nodes
+          .map((existingNode) => existingNode.id)
+          .includes(node.id)
+    );
 
-    const newPrereqNodes = prerequisiteNodeDescriptions.map((description) => {
-      const newPrereqNode = {
-        id: uuidv4(),
-        title: "",
-        type: "skill",
-        description: description,
+    if (moduleToUpdate) {
+      //updating an existing module
+
+      const moduleId = moduleToUpdate.id;
+      const updatedModule = {
+        ...moduleToUpdate,
+        title: title,
+        learnText: learnText,
+        practiceText: practiceText,
+        resourcesArray: resourcesArray,
       };
-      return newPrereqNode;
-    });
 
-    const newIsPrerequisiteToLinks = prerequisiteNodes
-      .concat(newPrereqNodes)
-      .map((prereqNode) => {
+      // add links for each node in prerequisiteNodes that doesn't have an isPrerequisiteTo link to this module
+      const newIsPrerequisiteToLinks = prerequisiteNodes
+        .filter(
+          (prereqNode) =>
+            !isNodeLinkedAsPrereqToModule(
+              prereqNode,
+              moduleToUpdate,
+              currentTree
+            )
+        )
+        .map((prereqNode) => {
+          const newLink = {
+            id: uuidv4(),
+            source: prereqNode.id,
+            target: moduleId,
+          };
+          return newLink;
+        });
+
+      const newTeachesLinks = objectiveNodes
+        .filter(
+          (objNode) =>
+            !isNodeLinkedAsObjToModule(objNode, moduleToUpdate, currentTree)
+        )
+        .map((targetNode) => {
+          const newLink = {
+            id: uuidv4(),
+            source: moduleId,
+            target: targetNode.id,
+          };
+          return newLink;
+        });
+
+      const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
+      const newNodes = newTargetNodes.concat(newPrereqNodes);
+
+      const removedPrereqNodes = presetPrereqNodes.filter(
+        (presetNode) =>
+          !prerequisiteNodes.map((node) => node.id).includes(presetNode.id)
+      );
+
+      const removedObjNodes = presetObjNodes.filter(
+        (presetNode) =>
+          !objectiveNodes.map((node) => node.id).includes(presetNode.id)
+      );
+
+      // links connected to prereqNodes that were removed. We can delete links because they don't contain data,
+      // but nodes should be deleted in another way.
+      const isPrerequisiteToLinksToDelete = currentTree.links.filter(
+        (link) =>
+          removedPrereqNodes.map((node) => node.id).includes(link.source) &&
+          link.target === moduleId
+      );
+
+      // links connected to objNodes that were removed
+      const teachesLinksToDelete = currentTree.links.filter(
+        (link) =>
+          removedObjNodes.map((node) => node.id).includes(link.target) &&
+          link.source === moduleId
+      );
+
+      const linksToDelete =
+        isPrerequisiteToLinksToDelete.concat(teachesLinksToDelete);
+
+      setCurrentTree((tree) => {
+        const newTree = {
+          nodes: tree.nodes
+            .map((node) => (node.id === moduleId ? updatedModule : node)) // add this updated module
+            .concat(newNodes),
+          links: tree.links
+            .filter((link) => !linksToDelete.map((i) => i.id).includes(link.id))
+            .concat(newLinks),
+        };
+
+        //test:
+        // adding new nodes (and links)
+        // removing links
+
+        return newTree;
+      });
+    } else {
+      //creating a new module !!!
+      const moduleId = uuidv4();
+
+      const newModule = {
+        id: moduleId,
+        type: "module",
+        title: title ? title : "untitled",
+        learnText: learnText,
+        practiceText: practiceText,
+        resourcesArray: resourcesArray,
+      };
+
+      const newIsPrerequisiteToLinks = prerequisiteNodes.map((prereqNode) => {
         const newLink = {
           id: uuidv4(),
           source: prereqNode.id,
@@ -75,44 +192,45 @@ function ModuleModal({
         return newLink;
       });
 
-    const targetNodes = targetNodeDescriptions.map((description) => {
-      const newTargetNode = {
-        id: uuidv4(),
-        title: "",
-        type: "skill",
-        description: description,
-      };
-      return newTargetNode;
-    });
+      const newTeachesLinks = objectiveNodes.map((targetNode) => {
+        const newLink = {
+          id: uuidv4(),
+          source: moduleId,
+          target: targetNode.id,
+        };
+        return newLink;
+      });
+      const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
+      const newNodes = objectiveNodes
+        .concat(newPrereqNodes)
+        .concat([newModule]);
 
-    const newTeachesLinks = targetNodes.map((targetNode) => {
-      const newLink = {
-        id: uuidv4(),
-        source: moduleId,
-        target: targetNode.id,
-      };
-      return newLink;
-    });
-    const newLinks = newIsPrerequisiteToLinks.concat(newTeachesLinks);
-    const newNodes = targetNodes.concat(newPrereqNodes).concat([newModule]);
-
-    // set the currentTree value by adding the new nodes and links to it
-    setCurrentTree((tree) => {
-      const newTree = {
-        nodes: tree.nodes.concat(newNodes),
-        links: tree.links.concat(newLinks),
-      };
-
-      return newTree;
-    });
+      setCurrentTree((tree) => {
+        const newTree = {
+          nodes: tree.nodes.concat(newNodes),
+          links: tree.links.concat(newLinks),
+        };
+        return newTree;
+      });
+    }
 
     // close the modal
+    setIsModuleModalVisible(false);
+  }
+
+  function handleExit(e) {
+    e.preventDefault();
     setIsModuleModalVisible(false);
   }
 
   return (
     <Suspense fallback={<Loader />}>
       <form className={styles.form}>
+        <div className={styles.exitDiv}>
+          <button onClick={handleExit} style={{ cursor: "pointer" }}>
+            &larr;
+          </button>
+        </div>
         <fieldset className={styles.title}>
           <h3>
             <input
@@ -123,15 +241,15 @@ function ModuleModal({
           </h3>
         </fieldset>
         <AddNodeSection
-          nodeDescriptions={prerequisiteNodeDescriptions}
-          setNodeDescriptions={setPrerequisiteNodeDescriptions}
+          nodes={prerequisiteNodes}
+          setNodes={setPrerequisiteNodes}
           currentTree={currentTree}
           type="prereq"
         />
 
         <AddNodeSection
-          nodeDescriptions={targetNodeDescriptions}
-          setNodeDescriptions={setTargetNodeDescriptions}
+          nodes={objectiveNodes}
+          setNodes={setObjectiveNodes}
           currentTree={currentTree}
           type="obj"
         />
@@ -147,6 +265,22 @@ function ModuleModal({
         <div></div>
       </form>
     </Suspense>
+  );
+}
+
+function isNodeLinkedAsPrereqToModule(node, module, tree) {
+  return (
+    tree.links.filter((link) => {
+      link.source === node.id && link.target === module.id;
+    }).length > 0
+  );
+}
+
+function isNodeLinkedAsObjToModule(node, module, tree) {
+  return (
+    tree.links.filter((link) => {
+      link.target === node.id && link.source === module.id;
+    }).length > 0
   );
 }
 

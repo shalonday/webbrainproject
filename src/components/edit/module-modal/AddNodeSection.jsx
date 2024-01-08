@@ -21,15 +21,13 @@ import GraphicalNodeSearch from "./GraphicalNodeSearch";
 import ReactSelect from "react-select";
 import MainButton from "../../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
-function AddNodeSection({
-  nodeDescriptions,
-  setNodeDescriptions,
-  currentTree,
-  type,
-}) {
+import { uuidv4 } from "../../../utils";
+function AddNodeSection({ nodes, setNodes, currentTree, type }) {
   const [searchMode, setSearchMode] = useState("");
   const [isSearchBoxVisible, setIsSearchBoxVisible] = useState(false);
-  const [tempNodes, setTempNodes] = useState([]);
+
+  // Array containing either node objects (picked from existing tree) or description strings (created) obtained via the search area before pressing Add.
+  const [tempNodesOrDescriptions, setTempNodesOrDescriptions] = useState([]);
 
   const options = [
     { value: "text", label: "Select from a dropdown or create a new node" },
@@ -45,20 +43,37 @@ function AddNodeSection({
   // Int -> Effect
   // delete item in bullets array that corresponds to index
   function handleDeleteItem(index) {
-    setNodeDescriptions((array) => array.filter((item, i) => i !== index));
+    setNodes((array) => array.filter((item, i) => i !== index));
   }
 
+  // Add a node object (not just description) to array
   function handleAddItem(e) {
     e.preventDefault();
-    setNodeDescriptions((array) => array.concat(tempNodes));
+    const nodesToAdd = tempNodesOrDescriptions.map((nodeOrDesc) => {
+      if (nodeOrDesc.id) {
+        //node
+        console.log(nodeOrDesc);
+        return nodeOrDesc;
+      } else {
+        //description string
+        return {
+          id: uuidv4(),
+          type: "skill",
+          title: "",
+          description: nodeOrDesc,
+        };
+      }
+    });
+
+    setNodes((array) => array.concat(nodesToAdd));
     setIsSearchBoxVisible(false);
-    setTempNodes([]);
+    setTempNodesOrDescriptions([]);
   }
 
   function handleCancel(e) {
     e.preventDefault();
     setIsSearchBoxVisible(false);
-    setTempNodes([]);
+    setTempNodesOrDescriptions([]);
   }
 
   return (
@@ -68,10 +83,10 @@ function AddNodeSection({
         ? "By the end of this module, the learner should be able to:"
         : "Before starting this module, the learner should already be able to:"}
       <ul className={styles.nodeList}>
-        {nodeDescriptions.map((bullet, index) => (
+        {nodes.map((node, index) => (
           <li key={index} className={styles.nodeInputGroup}>
             <span onClick={() => handleDeleteItem(index)}>&#10005;</span>
-            <p>{bullet}</p>
+            <p>{node.description}</p>
           </li>
         ))}
         {!isSearchBoxVisible && (
@@ -114,8 +129,8 @@ function AddNodeSection({
             />
             {searchMode === "text" && (
               <TextNodeSearch
-                tempNodes={tempNodes}
-                setTempNodes={setTempNodes}
+                tempNodesOrDescriptions={tempNodesOrDescriptions}
+                setTempNodesOrDescriptions={setTempNodesOrDescriptions}
                 currentTree={currentTree}
               />
             )}
