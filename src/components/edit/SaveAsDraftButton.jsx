@@ -15,15 +15,15 @@ function SaveAsDraftButton({ state = null, currentTree, branchTitle }) {
   const { user } = useUser();
 
   // mutate functions for upserting a branch draft
-  const { mutate: mutateDraftNodes, error: nodesError } = useMutation({
+  const { mutateAsync: mutateDraftNodes, error: nodesError } = useMutation({
     mutationFn: upsertDraftNodes,
     onError: (err) => console.error("upsertDraftNodes error:" + err.message),
   });
-  const { mutate: mutateDraftLinks, error: linksError } = useMutation({
+  const { mutateAsync: mutateDraftLinks, error: linksError } = useMutation({
     mutationFn: upsertDraftLinks,
     onError: (err) => console.error("upsertDraftLinks error:" + err.message),
   });
-  const { mutate: mutateDraftBranch, error: branchError } = useMutation({
+  const { mutateAsync: mutateDraftBranch, error: branchError } = useMutation({
     mutationFn: upsertDraftBranch,
     onSuccess: () =>
       toast.success("Branch draft has been saved to your account"),
@@ -54,7 +54,7 @@ function SaveAsDraftButton({ state = null, currentTree, branchTitle }) {
 
     await mutateDraftNodes(
       currentTree.nodes.map((node) => {
-        const { fx, fy, index, vx, vy, x, y, ...rest } = node;
+        const { fx, fy, index, vx, vy, x, y, created_at, ...rest } = node;
         return rest; // remove keys that we don't want to save
       })
     );
