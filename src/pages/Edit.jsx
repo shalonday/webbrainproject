@@ -36,6 +36,8 @@ import UpdateButton from "../components/edit/UpdateButton";
 
 function Edit() {
   const { isLoading, universalTree, error } = useUniversalTree();
+  // this value is set when entering the Edit screen by clicking a draft item from the user's Profile screen
+  const { state } = useLocation();
 
   const { mergeTree } = useSkillTreesContext();
 
@@ -43,14 +45,14 @@ function Edit() {
   const { nodeIds } = useParams(); // string of node IDs separated by ","
 
   const [currentTree, setCurrentTree] = useState({ nodes: [], links: [] });
-  const [branchTitle, setBranchTitle] = useState("");
+  const [branchTitle, setBranchTitle] = useState(
+    state?.draft?.title ? state.draft.title : ""
+  );
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [isAddingModule, setIsAddingModule] = useState(false); // true when the plus button was pressed. if true open an empty ModuleModal or with selectedNodes as preset prerequisites
   const [isUpdatingModule, setIsUpdatingModule] = useState(false); // true when Update button was clicked while a module is selected. if true open ModuleModal with preset values
 
-  // this value is set when entering the Edit screen by clicking a draft item from the user's Profile screen
-  const { state } = useLocation();
   console.log(state);
   console.log(currentTree);
   useEffect(
@@ -95,8 +97,8 @@ function Edit() {
         <input
           className={styles.input}
           placeholder={
-            state?.draft?.title
-              ? state.draft.title
+            branchTitle
+              ? branchTitle
               : "Type a title for this branch (to be displayed in your profile page)"
           }
           value={branchTitle}
@@ -148,6 +150,7 @@ function Edit() {
           </div>
           <div className={styles.buttonDiv}>
             <SaveAsDraftButton
+              state={state}
               currentTree={currentTree}
               branchTitle={branchTitle}
             />

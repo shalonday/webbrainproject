@@ -22,6 +22,7 @@ import AddNodeSection from "./module-modal/AddNodeSection";
 import MainTextSection from "./module-modal/MainTextSection";
 import { getObjectiveNodes, getPrerequisiteNodes, uuidv4 } from "../../utils";
 import Loader from "../Loader";
+import { useUser } from "../../hooks/useUser";
 
 function ModuleModal({
   moduleToUpdate = null,
@@ -58,6 +59,8 @@ function ModuleModal({
   const [resourcesArray, setResourcesArray] = useState(
     moduleToUpdate ? moduleToUpdate.resourcesArray : []
   );
+
+  const { user } = useUser();
 
   // Add module, skill nodes (prereq and objective), and links to currentTree
   function handleSubmit(e) {
@@ -175,6 +178,7 @@ function ModuleModal({
 
     const newModule = {
       id: moduleId,
+      author_id: user.id,
       type: "module",
       title: title ? title : "untitled",
       learnText: learnText,

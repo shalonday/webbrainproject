@@ -1,45 +1,52 @@
 import { useMutation } from "@tanstack/react-query";
 import {
-  createDraftBranch,
-  createDraftLinks,
-  createDraftNodes,
+  upsertDraftBranch,
+  upsertDraftLinks,
+  upsertDraftNodes,
 } from "../../services/apiBranches";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../MainButton";
 import { useUser } from "../../hooks/useUser";
+import { uuidv4 } from "../../utils";
 
-function SaveAsDraftButton({ currentTree, branchTitle }) {
+function SaveAsDraftButton({ state = null, currentTree, branchTitle }) {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  // mutate functions for saving a branch draft
+  // mutate functions for upserting a branch draft
   const { mutate: mutateDraftNodes, error: nodesError } = useMutation({
-    mutationFn: createDraftNodes,
-    onError: (err) => console.error(err.message),
+    mutationFn: upsertDraftNodes,
+    onError: (err) => console.error("upsertDraftNodes error:" + err.message),
   });
   const { mutate: mutateDraftLinks, error: linksError } = useMutation({
-    mutationFn: createDraftLinks,
-    onError: (err) => console.error(err.message),
+    mutationFn: upsertDraftLinks,
+    onError: (err) => console.error("upsertDraftLinks error:" + err.message),
   });
   const { mutate: mutateDraftBranch, error: branchError } = useMutation({
-    mutationFn: createDraftBranch,
+    mutationFn: upsertDraftBranch,
     onSuccess: () =>
       toast.success("Branch draft has been saved to your account"),
-    onError: (err) => console.error(err.message),
+    onError: (err) => console.error("upsertDraftBranch error:" + err.message),
   });
 
   async function handleSave() {
     const draftBranch = {
+      id: state?.draft?.id ? state.draft.id : uuidv4(),
       title: branchTitle,
       nodeIds: currentTree.nodes.map((node) => node.id),
       linkIds: currentTree.links.map((link) => link.id),
-      user_id: user.id,
+      author_id: user.id,
       status: "draft",
     };
-    // save a tree object to the Supabase PostgreSQL db containing the User's ID or smth
+
+    // for each link and new module, add author_id if it doesn't exist  yet (nodes should already have authors added in AddNodeSection)
+    const linksWithAuthors = currentTree.links.map((link) =>
+      !link.author_id ? { ...link, author_id: user.id } : link
+    );
+
     await mutateDraftNodes(currentTree.nodes); // if need ng validation, just fill in empty columns with null
-    await mutateDraftLinks(currentTree.links);
+    await mutateDraftLinks(linksWithAuthors);
     await mutateDraftBranch(draftBranch);
 
     if (!nodesError && !linksError && !branchError) navigate("/profile");

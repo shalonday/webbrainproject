@@ -22,12 +22,15 @@ import ReactSelect from "react-select";
 import MainButton from "../../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
 import { uuidv4 } from "../../../utils";
+import { useUser } from "../../../hooks/useUser";
 function AddNodeSection({ nodes, setNodes, currentTree, type }) {
   const [searchMode, setSearchMode] = useState("");
   const [isSearchBoxVisible, setIsSearchBoxVisible] = useState(false);
 
   // Array containing either node objects (picked from existing tree) or description strings (created) obtained via the search area before pressing Add.
   const [tempNodesOrDescriptions, setTempNodesOrDescriptions] = useState([]);
+
+  const { user } = useUser();
 
   const options = [
     { value: "text", label: "Select from a dropdown or create a new node" },
@@ -61,6 +64,8 @@ function AddNodeSection({ nodes, setNodes, currentTree, type }) {
           type: "skill",
           title: "",
           description: nodeOrDesc,
+          major: false,
+          author_id: user.id,
         };
       }
     });

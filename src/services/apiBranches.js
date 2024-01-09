@@ -17,10 +17,10 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 
 import supabase from "./supabase";
 
-export async function createDraftNodes(draftNodesArray) {
+export async function upsertDraftNodes(draftNodesArray) {
   const { data, error } = await supabase
     .from("draftNodes")
-    .insert(draftNodesArray)
+    .upsert(draftNodesArray)
     .select();
 
   if (error) throw new Error(error.message);
@@ -28,10 +28,10 @@ export async function createDraftNodes(draftNodesArray) {
   return data;
 }
 
-export async function createDraftLinks(draftLinksArray) {
+export async function upsertDraftLinks(draftLinksArray) {
   const { data, error } = await supabase
     .from("draftLinks")
-    .insert(draftLinksArray)
+    .upsert(draftLinksArray)
     .select();
 
   if (error) throw new Error(error.message);
@@ -39,10 +39,10 @@ export async function createDraftLinks(draftLinksArray) {
   return data;
 }
 
-export async function createDraftBranch(draftBranch) {
+export async function upsertDraftBranch(draftBranch) {
   const { data, error } = await supabase
     .from("branches")
-    .insert([draftBranch])
+    .upsert([draftBranch])
     .select();
 
   if (error) throw new Error(error.message);
@@ -54,7 +54,7 @@ export async function getDraftBranchesByUserId(userId) {
   const { data, error } = await supabase
     .from("branches")
     .select("*")
-    .eq("user_id", userId)
+    .eq("author_id", userId)
     .eq("status", "draft");
 
   if (error) throw new Error(error.message);
