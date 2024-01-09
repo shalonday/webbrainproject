@@ -55,7 +55,7 @@ function ModuleModal({
 
   // Array of links added onto Learn and Practice sections.
   const [resourcesArray, setResourcesArray] = useState(
-    moduleToUpdate.resources_array ? moduleToUpdate.resources_array : []
+    moduleToUpdate?.resources_array ? moduleToUpdate.resources_array : []
   );
   const { user } = useUser();
 
