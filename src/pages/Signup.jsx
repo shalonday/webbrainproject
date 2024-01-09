@@ -72,7 +72,7 @@ const InputDiv = styled.div`
 
 function Signup({ className }) {
   const { register, handleSubmit, reset, formState, getValues } = useForm();
-  const { signup, isLoading } = useSignup();
+  const { signup, isPending } = useSignup();
 
   const { errors } = formState;
 
@@ -84,6 +84,8 @@ function Signup({ className }) {
       }
     );
   }
+
+  console.log(isPending);
 
   return (
     <Div>
@@ -99,7 +101,7 @@ function Signup({ className }) {
                 message: "Please provide a valid email address",
               },
             })}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {errors?.email?.message && <Error>{errors.email.message}</Error>}
         </InputDiv>
@@ -109,7 +111,7 @@ function Signup({ className }) {
             placeholder="Username"
             id="username"
             {...register("username", { required: "This field is required" })}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {errors?.username?.message && (
             <Error>{errors.username.message}</Error>
@@ -128,7 +130,7 @@ function Signup({ className }) {
                 message: "Password needs a minimum of 8 characters",
               },
             })}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {errors?.password?.message && (
             <Error>{errors.password.message}</Error>
@@ -145,13 +147,13 @@ function Signup({ className }) {
               validate: (value) =>
                 value === getValues().password || "Passwords need to match",
             })}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {errors?.password2?.message && (
             <Error>{errors.password2.message}</Error>
           )}
         </InputDiv>
-        <PositionedMainButton disabled={isLoading}>
+        <PositionedMainButton disabled={isPending}>
           Sign up
         </PositionedMainButton>
       </Form>

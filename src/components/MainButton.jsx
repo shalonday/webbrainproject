@@ -54,11 +54,11 @@ const StyledMainButton = styled.button`
   }
 `;
 
-function MainButton({ onClick, children, disabledValue = false, className }) {
+function MainButton({ onClick, children, disabled = false, className }) {
   return (
     <StyledMainButton
       onClick={onClick}
-      disabled={disabledValue}
+      disabled={disabled}
       className={className}
     >
       {children}
