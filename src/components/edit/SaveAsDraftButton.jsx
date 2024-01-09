@@ -52,7 +52,6 @@ function SaveAsDraftButton({ state = null, currentTree, branchTitle }) {
         !link.author_id ? { ...link, author_id: user.id } : link
       );
 
-    console.log(linksWithAuthors);
     await mutateDraftNodes(
       currentTree.nodes.map((node) => {
         const { fx, fy, index, vx, vy, x, y, ...rest } = node;
