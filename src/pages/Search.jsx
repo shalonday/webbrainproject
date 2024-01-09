@@ -85,7 +85,7 @@ function Search() {
           />
         )}
         <div className={styles.buttonsDiv}>
-          <MainButton onClick={handleGeneratePath} disabledValue={!currentNode}>
+          <MainButton onClick={handleGeneratePath} disabled={!currentNode}>
             Generate Path
           </MainButton>
 
