@@ -21,7 +21,13 @@ import AddLinkModal from "./AddLinkModal";
 import TextEditor from "./TextEditor";
 import MainButton from "../../MainButton";
 
-function MainTextSection({ setLearnText, setPracticeText, setResourcesArray }) {
+function MainTextSection({
+  learnText,
+  setLearnText,
+  practiceText,
+  setPracticeText,
+  setResourcesArray,
+}) {
   const [learnLinkText, setLearnLinkText] = useState("");
   const [practiceLinkText, setPracticeLinkText] = useState("");
   const [isLearnAddLinkModalVisible, setIsLearnAddLinkModalVisible] =
@@ -57,6 +63,7 @@ function MainTextSection({ setLearnText, setPracticeText, setResourcesArray }) {
           />
         )}
         <TextEditor
+          presetText={learnText}
           textToAppend={learnLinkText}
           onChange={(markdown) => setLearnText(markdown)}
         />
@@ -76,6 +83,7 @@ function MainTextSection({ setLearnText, setPracticeText, setResourcesArray }) {
           />
         )}
         <TextEditor
+          presetText={practiceText}
           textToAppend={practiceLinkText}
           onChange={(markdown) => setPracticeText(markdown)}
         />

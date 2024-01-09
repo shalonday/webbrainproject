@@ -11,7 +11,7 @@ export function useSignup() {
       );
     },
     onError: (err) => {
-      console.log("ERROR", err);
+      toast.error(err.message);
     },
   });
 

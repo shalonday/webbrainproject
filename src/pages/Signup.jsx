@@ -85,8 +85,6 @@ function Signup({ className }) {
     );
   }
 
-  console.log(isPending);
-
   return (
     <Div>
       <Form className={className} onSubmit={handleSubmit(signupNewUser)}>

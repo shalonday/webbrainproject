@@ -9,7 +9,7 @@ function TreeModuleView({
   setIsModuleVisible,
 }) {
   const [currentModule, setCurrentModule] = useState(clickedNode);
-  // console.log(clickedNode);
+
   const outgoingLinks = tree.links.filter(
     (link) => link.source === currentModule.id
   );

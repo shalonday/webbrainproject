@@ -30,8 +30,6 @@ function ModuleModal({
   setCurrentTree,
   setIsModuleModalVisible,
 }) {
-  console.log(moduleToUpdate);
-
   const presetPrereqNodes = moduleToUpdate
     ? getPrerequisiteNodes(moduleToUpdate, currentTree)
     : null;
@@ -57,9 +55,8 @@ function ModuleModal({
 
   // Array of links added onto Learn and Practice sections.
   const [resourcesArray, setResourcesArray] = useState(
-    moduleToUpdate ? moduleToUpdate.resourcesArray : []
+    moduleToUpdate.resources_array ? moduleToUpdate.resources_array : []
   );
-
   const { user } = useUser();
 
   // Add module, skill nodes (prereq and objective), and links to currentTree
@@ -97,7 +94,7 @@ function ModuleModal({
       title: title,
       learnText: learnText,
       practiceText: practiceText,
-      resourcesArray: resourcesArray,
+      resources_array: resourcesArray,
     };
 
     // add links for each node in prerequisiteNodes that doesn't have an isPrerequisiteTo link to this module
@@ -183,7 +180,7 @@ function ModuleModal({
       title: title ? title : "untitled",
       learnText: learnText,
       practiceText: practiceText,
-      resourcesArray: resourcesArray,
+      resources_array: resourcesArray,
     };
 
     const newIsPrerequisiteToLinks = prerequisiteNodes.map((prereqNode) => {
@@ -252,7 +249,9 @@ function ModuleModal({
         />
 
         <MainTextSection
+          learnText={learnText}
           setLearnText={setLearnText}
+          practiceText={practiceText}
           setPracticeText={setPracticeText}
           setResourcesArray={setResourcesArray}
         />

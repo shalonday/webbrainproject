@@ -33,9 +33,11 @@ import {
 import { listsPlugin } from "@mdxeditor/editor/plugins/lists";
 import { useEffect, useRef } from "react";
 
-function TextEditor({ textToAppend, onChange }) {
+function TextEditor({ presetText = "", textToAppend, onChange }) {
   const ref = useRef();
-  const markdown = `Add resources, then organize and put them into context here`;
+  const markdown = presetText
+    ? presetText
+    : `Add resources, then organize and put them into context here`;
 
   // Dynamically set text on editor by passing textToAppend to this component
   // See https://mdxeditor.dev/editor/docs/getting-started or my commit message

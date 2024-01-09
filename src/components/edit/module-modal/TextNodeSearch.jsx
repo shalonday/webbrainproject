@@ -40,8 +40,6 @@ function TextNodeSearch({
       return { value: node, label: node.description };
     });
 
-  console.log(tempNodesOrDescriptions);
-  console.log(currentTreeNodeOptions);
   return (
     <>
       {tempNodesOrDescriptions.map((bullet, index) => (

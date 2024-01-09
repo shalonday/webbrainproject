@@ -53,8 +53,6 @@ function Edit() {
   const [isAddingModule, setIsAddingModule] = useState(false); // true when the plus button was pressed. if true open an empty ModuleModal or with selectedNodes as preset prerequisites
   const [isUpdatingModule, setIsUpdatingModule] = useState(false); // true when Update button was clicked while a module is selected. if true open ModuleModal with preset values
 
-  console.log(state);
-  console.log(currentTree);
   useEffect(
     function () {
       async function setDisplayedTree() {

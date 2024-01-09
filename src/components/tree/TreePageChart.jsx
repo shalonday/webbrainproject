@@ -23,9 +23,7 @@ function TreePageChart({
     if (window.matchMedia("(pointer: coarse)").matches) {
       //https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
       // touchscreen
-      timer = setTimeout(() => {
-        console.log(e);
-      }, touchduration);
+      timer = setTimeout(() => {}, touchduration);
     }
   }
 

@@ -41,11 +41,24 @@ function SaveAsDraftButton({ state = null, currentTree, branchTitle }) {
     };
 
     // for each link and new module, add author_id if it doesn't exist  yet (nodes should already have authors added in AddNodeSection)
-    const linksWithAuthors = currentTree.links.map((link) =>
-      !link.author_id ? { ...link, author_id: user.id } : link
-    );
+    const linksWithAuthors = currentTree.links
+      .map((link) => {
+        const { created_at, ...rest } = link;
+        return rest;
+        // remove created_at (effectively resetting database value of created_at every time we update).
+        // Otherwise errors occur when some links have the created_at key and some don't
+      })
+      .map((link) =>
+        !link.author_id ? { ...link, author_id: user.id } : link
+      );
 
-    await mutateDraftNodes(currentTree.nodes); // if need ng validation, just fill in empty columns with null
+    console.log(linksWithAuthors);
+    await mutateDraftNodes(
+      currentTree.nodes.map((node) => {
+        const { fx, fy, index, vx, vy, x, y, ...rest } = node;
+        return rest; // remove keys that we don't want to save
+      })
+    );
     await mutateDraftLinks(linksWithAuthors);
     await mutateDraftBranch(draftBranch);
 

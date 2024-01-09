@@ -85,7 +85,7 @@ function AddLinkModal({
   }
 
   return (
-    <form className={styles.form}>
+    <div className={styles.form}>
       <fieldset>
         <select
           value={resourceType}
@@ -173,7 +173,7 @@ function AddLinkModal({
           <button onClick={handleSubmit}>+ Add Link</button>
         </div>
       </fieldset>
-    </form>
+    </div>
   );
 }
 

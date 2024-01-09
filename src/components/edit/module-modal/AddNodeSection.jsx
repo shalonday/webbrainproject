@@ -55,7 +55,6 @@ function AddNodeSection({ nodes, setNodes, currentTree, type }) {
     const nodesToAdd = tempNodesOrDescriptions.map((nodeOrDesc) => {
       if (nodeOrDesc.id) {
         //node
-        console.log(nodeOrDesc);
         return nodeOrDesc;
       } else {
         //description string

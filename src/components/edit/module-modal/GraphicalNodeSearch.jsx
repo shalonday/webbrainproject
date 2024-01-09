@@ -40,7 +40,6 @@ function GraphicalNodeSearch({ type, currentTree }) {
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
 
-  console.log(currentTree);
   function handleKeyDown(e) {
     if (e.key === "Enter") {
       //search only locally. then setSelectedNodes to the search results;
