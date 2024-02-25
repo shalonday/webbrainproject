@@ -28,3 +28,4 @@ Please take note that I'm still working on some major features like user authent
 
 ## Contributing
 Pull requests welcome. 
+I'm a newbie when it comes to these things, but you can email me at alondaysp@gmail.com to join the project's Trello board and Slack workspace.
