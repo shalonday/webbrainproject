@@ -33,6 +33,7 @@ import { useUniversalTree } from "../hooks/useUniversalTree";
 import SaveAsDraftButton from "../components/edit/SaveAsDraftButton";
 import styled from "styled-components";
 import UpdateButton from "../components/edit/UpdateButton";
+import DeleteModal from "../components/edit/DeleteModal";
 
 function Edit() {
   const { isLoading, universalTree, error } = useUniversalTree();
@@ -52,6 +53,7 @@ function Edit() {
   const [currentNode, setCurrentNode] = useState(null);
   const [isAddingModule, setIsAddingModule] = useState(false); // true when the plus button was pressed. if true open an empty ModuleModal or with selectedNodes as preset prerequisites
   const [isUpdatingModule, setIsUpdatingModule] = useState(false); // true when Update button was clicked while a module is selected. if true open ModuleModal with preset values
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(
     function () {
@@ -87,8 +89,9 @@ function Edit() {
   function handleDeleteClick() {
     //open an alert or modal to ask user if they're sure because this will delete relationships too
     //upon clicking ok on that modal, delete the node and relationships attached to it (not yet at the database because database mutation should only happen upon submit)
+    setIsDeleteModalOpen(true);
   }
-
+  
   return (
     <>
       <div className={styles.inputDiv}>
@@ -172,6 +175,7 @@ function Edit() {
           setIsModuleModalVisible={setIsAddingModule}
         />
       )}
+      {isDeleteModalOpen && <DeleteModal open={isDeleteModalOpen} setOpen={setIsDeleteModalOpen} currentNode={currentNode} setCurrentTree={setCurrentTree}/>}
     </>
   );
 }
