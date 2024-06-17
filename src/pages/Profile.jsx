@@ -16,7 +16,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { useQuery } from "@tanstack/react-query";
-import { getDraftBranchesByUserId } from "../services/apiBranches";
+import { getDraftBranchesByUserId, getSubmittedBranches } from "../services/apiBranches";
 import { useUser } from "../hooks/useUser";
 import Avatar from "../components/profile/Avatar";
 import BranchList from "../components/profile/BranchList";
@@ -25,22 +25,33 @@ import BranchCard from "../components/profile/BranchCard";
 function Profile() {
   const { user } = useUser();
   const userId = user?.id;
-  const { data: branchesByUser, error } = useQuery({
+  const { data: branchesByUser, error: userBranchesError } = useQuery({
     queryKey: ["branchesByUser"],
     queryFn: () => getDraftBranchesByUserId(user.id),
     enabled: !!userId,
   });
 
+  
+  console.log(user)
+
+  const { data: submittedBranches, error: submittedBranchesError } = useQuery({
+    queryKey: ["branchesByUser"],
+    queryFn: () => getSubmittedBranches(),
+    enabled: user?.role === "admin", // !!! get isUserAdmin bool
+  });
+
+  // write a useQuery with a function that gets submitted branches when this user is an admin
   return (
     <div>
       <Avatar />
       <BranchList title={"Draft Branches"}>
-        {error && <p>{error.message}</p>}
-        {!error &&
+        {userBranchesError && <p>{userBranchesError.message}</p>}
+        {!userBranchesError &&
           branchesByUser?.map((branch) => (
             <BranchCard branch={branch} key={branch.id} />
           ))}
       </BranchList>
+      {/* Render a branch list of submissions when the user is an admin */}
     </div>
   );
 }
