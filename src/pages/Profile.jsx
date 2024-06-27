@@ -23,7 +23,7 @@ import BranchList from "../components/profile/BranchList";
 import BranchCard from "../components/profile/BranchCard";
 
 function Profile() {
-  const { user } = useUser();
+  const { user, userRole } = useUser();
   const userId = user?.id;
   const { data: branchesByUser, error: userBranchesError } = useQuery({
     queryKey: ["branchesByUser"],
@@ -31,13 +31,10 @@ function Profile() {
     enabled: !!userId,
   });
 
-  
-  console.log(user)
-
   const { data: submittedBranches, error: submittedBranchesError } = useQuery({
     queryKey: ["branchesByUser"],
     queryFn: () => getSubmittedBranches(),
-    enabled: user?.role === "admin", // !!! get isUserAdmin bool
+    enabled: userRole === "admin"
   });
 
   // write a useQuery with a function that gets submitted branches when this user is an admin
@@ -51,6 +48,7 @@ function Profile() {
             <BranchCard branch={branch} key={branch.id} />
           ))}
       </BranchList>
+      {userRole === 'admin' && <p>user is admin</p>}
       {/* Render a branch list of submissions when the user is an admin */}
     </div>
   );
