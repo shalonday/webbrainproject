@@ -16,7 +16,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser } from "../services/apiLogin";
+import { getCurrentUser, getUserRole } from "../services/apiLogin";
 
 export function useUser() {
   const { isLoading, data: user } = useQuery({
@@ -24,5 +24,10 @@ export function useUser() {
     queryFn: getCurrentUser,
   });
 
-  return { isLoading, user, isAuthenticated: user?.role === "authenticated" };
+  const { isLoading: isUserRoleLoading, data: userRole } = useQuery({
+    queryKey: ["userRole", {userId: user?.id}],
+    queryFn: getUserRole,
+  });
+
+  return { isLoading, isUserRoleLoading, user, userRole, isAuthenticated: user?.role === "authenticated" };
 }

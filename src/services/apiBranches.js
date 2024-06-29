@@ -62,6 +62,17 @@ export async function getDraftBranchesByUserId(userId) {
   return data;
 }
 
+export async function getSubmittedBranches() {
+  const { data, error } = await supabase
+    .from("branches")
+    .select("*")
+    .eq("status", "submitted");
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
 export async function getNodesByIdsArray(nodeIdsArray) {
   let { data, error } = await supabase
     .from("draftNodes")
