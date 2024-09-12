@@ -20,10 +20,13 @@ Please take note that I'm still working on some major features like user authent
 
 - A Contributor, upon entering the site, is expected to:
 1. Press "Add a Branch"
-2. User is transferred to the Edit screen. The user presses "+" to go to the New Module screen.
-3. The user specifies the prerequisite skills needed for this module, and objective skills that will be obtained after finishing it. They also specify the actual learning materials under the Learn and Practice sections, putting them into context by, for example, explaining the order the added resources are to be consumed, how they connect with each other, or whether only some portions of the given resource are relevant. When they're done, they submit the new module.
-4. Repeat 2-3 as much as necessary.
-5. Submit the branch.
+2. User is transferred to the Edit screen.
+3. The user presses "+" to go to the New Module screen.
+4. The user specifies the prerequisite skills needed for this module, and objective skills that will be obtained after finishing it.
+5. They also specify the actual learning materials under the Learn and Practice sections, putting them into context by, for example, explaining the order the added resources are to be consumed, how they connect with each other, or whether only some portions of the given resource are relevant.
+6. When they're done, they submit the new module.
+7. Repeat 3-6 as much as necessary.
+8. Submit the branch.
 
 ## Contributing
 Pull requests welcome. 
