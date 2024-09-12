@@ -19,12 +19,11 @@ Please take note that I'm still working on some major features like user authent
 6. User repeats step 5 until all the modules have been learned.
 
 - A Contributor, upon entering the site, is expected to:
-1. Pick the start node(s) for the "branch" they will be adding to the giant skill tree.
-2. User is transferred to the Edit screen. Here they can pick which skill nodes will be the prerequisites for the module they're going to add, by clicking and highlighting them.
-3. After selecting, the user presses "+" to go to the New Module screen.
-4. Automatically, the Prerequisites section are filled up. The user specifies the objective nodes, and adds resources to one or both of the Learn and Practice sections, putting them into context by, for example, explaining the order the added resources are to be consumed, how they connect with each other, or whether only some portions of the given resource are relevant. When they're done, they submit the new module.
-5. Repeat 2-4 as much as necessary.
-6. Submit the branch.
+1. Press "Add a Branch"
+2. User is transferred to the Edit screen. The user presses "+" to go to the New Module screen.
+3. The user specifies the prerequisite skills needed for this module, and objective skills that will be obtained after finishing it. They also specify the actual learning materials under the Learn and Practice sections, putting them into context by, for example, explaining the order the added resources are to be consumed, how they connect with each other, or whether only some portions of the given resource are relevant. When they're done, they submit the new module.
+4. Repeat 2-3 as much as necessary.
+5. Submit the branch.
 
 ## Contributing
 Pull requests welcome. 
