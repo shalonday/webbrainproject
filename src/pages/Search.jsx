@@ -47,7 +47,7 @@ function Search() {
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
-      //search only locally. then setSelectedNodes to the search results;
+      //search, then setSelectedNodes to the search results;
       const results = searchNodes(searchQuery, universalTree);
       if (results.length > 0) {
         setCurrentNode(null); //doesn't make sense to retain previous currentNode when searching
@@ -117,6 +117,7 @@ function Search() {
 
 // String, Tree -> Nodes
 function searchNodes(query, tree) {
+  // search locally
   const queryResults = tree.nodes.filter((node) => nodeIsMatch(node, query));
   return queryResults;
 }
@@ -125,8 +126,7 @@ function searchNodes(query, tree) {
 function nodeIsMatch(node, query) {
   if (node.type === "skill") {
     return (
-      node.title?.toLowerCase().includes(query.toLowerCase()) ||
-      node.description?.toLowerCase().includes(query.toLowerCase())
+      node.name?.toLowerCase().includes(query.toLowerCase())
     );
   } else return false;
 }
