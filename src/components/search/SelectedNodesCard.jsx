@@ -49,7 +49,7 @@ function SelectedNodesCard({
       <ul>
         {selectedNodes?.map((node) => (
           <ListItem key={node.id} onClick={(e) => focusClickedNode(e, node)}>
-            {node.title ? node.title : node.description}
+            {node.name}
           </ListItem>
         ))}
       </ul>
