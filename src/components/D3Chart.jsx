@@ -86,13 +86,13 @@ function ForceGraph(
     .data(nodes)
     .attr("id", (d) => d.id)
     .attr("fill", (d) => {
-      if (d.type === "module" && !d.active) return INACTIVE_MODULE_FILL;
-      else if (d.type === "module" && d.active) return ACTIVE_MODULE_FILL;
+      if (d.type === "url" && !d.active) return INACTIVE_MODULE_FILL;
+      else if (d.type === "url" && d.active) return ACTIVE_MODULE_FILL;
       else if (d.type === "skill" && d.active) return ACTIVE_SKILL_FILL;
       else if (d.type === "skill" && !d.active) return INACTIVE_SKILL_FILL;
     })
     .attr("r", (d) => {
-      if (d.type === "module") return RADIUS / 2;
+      if (d.type === "url") return RADIUS / 2;
       else return RADIUS / 2;
     })
     // .on("click", onNodeClick) // has to be before the "call" in order to work for some reason.
