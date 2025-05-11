@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { HiUser } from "react-icons/hi";
 import { useUser } from "../hooks/useUser";
 import { useLogout } from "../hooks/useLogout";
+import { Button } from "@mui/material";
 
 const StyledHeader = styled.header`
   background-color: transparent;
@@ -24,6 +25,11 @@ const IconDiv = styled.div`
 
 const MenuItem = styled.li`
   cursor: pointer;
+`;
+
+const ButtonsDiv = styled.div`
+  display: flex;
+  gap: 0px 10px;
 `;
 
 function Header() {
@@ -53,12 +59,10 @@ function Header() {
         </ul>
       )}
       {!user && (
-        <ul>
-          <MenuItem>Log In</MenuItem>
-          <MenuItem>
-            Sign Up
-          </MenuItem>
-        </ul>
+        <ButtonsDiv>
+          <Button variant="contained">Log In</Button>
+          <Button variant="outlined">Sign Up</Button>
+        </ButtonsDiv>
       )}
     </StyledHeader>
   );
