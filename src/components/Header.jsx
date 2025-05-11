@@ -52,6 +52,14 @@ function Header() {
           </MenuItem>
         </ul>
       )}
+      {!user && (
+        <ul>
+          <MenuItem>Log In</MenuItem>
+          <MenuItem>
+            Sign Up
+          </MenuItem>
+        </ul>
+      )}
     </StyledHeader>
   );
 }
