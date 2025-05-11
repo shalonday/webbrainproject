@@ -60,8 +60,8 @@ function Header() {
       )}
       {!user && (
         <ButtonsDiv>
-          <Button variant="contained">Log In</Button>
-          <Button variant="outlined">Sign Up</Button>
+          <Button variant="contained" onClick={() => navigate("/login")}>Log In</Button>
+          <Button variant="outlined" onClick={() => navigate("/signup")}>Sign Up</Button>
         </ButtonsDiv>
       )}
     </StyledHeader>
