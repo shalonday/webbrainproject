@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { createNeo4jUserNode } from "./apiTrees";
 import supabase from "./supabase";
 
 export async function signup({ username, email, password }) {
@@ -28,6 +29,8 @@ export async function signup({ username, email, password }) {
     },
   });
   if (error) throw new Error(error.message);
+
+  createNeo4jUserNode({email});
 
   return data;
 }
