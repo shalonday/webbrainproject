@@ -26,3 +26,17 @@ export async function fetchUniversalTree() {
     throw new Error("There was an error fetching the universal tree");
   }
 }
+
+export async function createNeo4jUserNode(user) {
+  try {
+    await fetch(`${BASE_URL}/user`, {
+      method: "POST",
+      body: user,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch {
+    throw new Error("There was an error adding the user to the neo4j database");
+  }
+}
