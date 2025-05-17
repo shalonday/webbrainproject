@@ -31,7 +31,7 @@ export async function createNeo4jUserNode(user) {
   try {
     await fetch(`${BASE_URL}/user`, {
       method: "POST",
-      body: user,
+      body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
       },
