@@ -53,17 +53,17 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Search />} />
               <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
-              <Route
+              {/* <Route //Temporarily disabled while I work on the MVP
                 path="edit/:nodeIds"
                 element={
                   <ProtectedRoute>
                     <Edit />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
             </Route>
 
-            <Route path="login" element={<Login />} />
+            {/* <Route path="login" element={<Login />} /> //Temporarily disabled while I work on the MVP
             <Route path="signup" element={<Signup />} />
             <Route
               path="profile"
@@ -72,7 +72,7 @@ function App() {
                   <Profile />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
