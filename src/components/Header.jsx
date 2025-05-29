@@ -58,12 +58,12 @@ function Header() {
           </MenuItem>
         </ul>
       )}
-      {!user && (
+      {/* {!user && ( // temporarily disable while I focus on main features for MVP, which are search and path with local storage.
         <ButtonsDiv>
           <Button variant="contained" onClick={() => navigate("/login")}>Log In</Button>
           <Button variant="outlined" onClick={() => navigate("/signup")}>Sign Up</Button>
         </ButtonsDiv>
-      )}
+      )} */}
     </StyledHeader>
   );
 }
