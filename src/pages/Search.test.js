@@ -70,6 +70,12 @@ describe("Search Page Text Results Display", () => {
 	});
 });
 
-test("There is a way to redirect user to the path page", () => {
-	throw new Error;
+describe("Generate Path Button", () => {
+	test("Clicking on the button while a Skill or URL is selected leads user to the Branch page", () => {
+		throw new Error;
+	});
+
+	test("Clicking on the button when there is nothing selected informs the user to select a Skill or URL first", () => {
+		throw new Error;
+	});
 });
