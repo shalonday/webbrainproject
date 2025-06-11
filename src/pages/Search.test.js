@@ -52,6 +52,24 @@ describe("Search Page Graph Display", () => {
 	});
 });
 
+describe("Search Page Text Results Display", () => {
+	test("After a user confirms the keyword they're searching for, the results are displayed in text form", () => {
+		throw new Error;
+	});
+
+	test("If there are no results, the user is informed", () => {
+		throw new Error;
+	});
+
+	test("User can click on a skill description to select it", () => {
+		throw new Error;
+	});
+
+	test("User can click on a URL result to select it", () => {
+		throw new Error;
+	});
+});
+
 test("There is a way to redirect user to the path page", () => {
 	throw new Error;
 });
