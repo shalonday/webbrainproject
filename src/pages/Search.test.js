@@ -32,19 +32,24 @@ describe("Search input box", () => {
   // render(<App />);
   // const headingElement = screen.getByText(/learn react/i);
   // expect(headingElement).not.toBeInTheDocument();
-    throw new Error;
 });
 
-test("After a user confirms the keyword they're searching for, the results are adequately highlighted", () => {
-    throw new Error;
-});
+describe("Search Page Graph Display", () => {
+	test("After a user confirms the keyword they're searching for, the resulting nodes are adequately highlighted", () => {
+		throw new Error;
+	});
 
-test("User can pick a highlighted skill and generate a path to it", () => {
-	throw new Error;
-});
+	test("If there are no results, the user is informed", () => {
+		throw new Error;
+	});
 
-test("User can pick a highlighted URL and generate a path to it", () => {
-	throw new Error;
+	test("User can double click a skill node to select it", () => {
+		throw new Error;
+	});
+
+	test("User can double click a URL node to select it", () => {
+		throw new Error;
+	});
 });
 
 test("There is a way to redirect user to the path page", () => {
