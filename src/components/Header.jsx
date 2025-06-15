@@ -48,7 +48,7 @@ function Header() {
   }
   return (
     <StyledHeader>
-      <H1 onClick={() => navigate("/")}>The Online Brain Project</H1>
+      <H1 onClick={() => navigate("/")}>The Web Brain Project</H1>
       <IconDiv>{user && <HiUser onClick={toggleOptions} />}</IconDiv>
       {user && areOptionsVisible && (
         <ul>
