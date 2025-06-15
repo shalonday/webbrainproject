@@ -15,5 +15,5 @@ Listed below are the steps we envision a user would take to use the site, once t
 2. From the search results, pick a node that they would like to generate a learning path to
 3. Clicking "Generate Path" isolates a path from the "E" node (the entry node representing no skills) towards the picked node.
 4. User takes an initial skill check, so skills within the path that they already have will be highlighted.
-5. User goes through the learning materials from the most advanced skill node towards the desired skill node.
+5. User goes through the learning materials from the most advanced highlighted (i.e., already acquired) skill node towards the desired skill node.
 6. Progress is saved locally in their browser.
