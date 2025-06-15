@@ -6,6 +6,7 @@ Graphs (the data structure consisting of vertices and edges) can be used to arra
 - Putting into context the rich library of educational content across the web that don't always make their prerequisites obvious, making them more accessible to learners, by creating pathways that they can follow from a skill that they have towards the one they want.
 - Highlighting nodes that a learner has progressed through, and providing cues when they should be reviewed makes it easier to spot holes and to avoid what Salman Khan called "Swiss Cheese Learning" (see his book "The One World Schoolhouse").
 - By attaching data to nodes, such as financial and time cost to URL nodes, and job availability and salaries to skill nodes, learners could make more informed decisions about the investment to reward ratio of working towards certain skills, and pick the skills they want accordingly.
+- This project was initially inspired by video game skill trees and my hope is that it can eventually be used in a gamified learning platform.
 
 ## Usage (NOT YET COMPLETELY IMPLEMENTED)
 Listed below are the steps we envision a user would take to use the site, once the MVP is finished:
