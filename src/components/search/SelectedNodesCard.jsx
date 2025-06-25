@@ -16,6 +16,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 
 const StyledCard = styled.div`
   border: 1px solid #fff;
@@ -58,3 +59,9 @@ function SelectedNodesCard({
 }
 
 export default SelectedNodesCard;
+
+SelectedNodesCard.propTypes = {
+  selectedNodes: PropTypes.arrayOf(PropTypes.object),
+  setCurrentNode: PropTypes.func,
+  maxHeight: PropTypes.string
+}
