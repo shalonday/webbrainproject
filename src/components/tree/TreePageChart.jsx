@@ -1,4 +1,5 @@
 import D3Chart from "../D3Chart";
+import PropTypes from 'prop-types';
 
 function TreePageChart({
   branch,
@@ -16,7 +17,7 @@ function TreePageChart({
     if (e.target.__data__.type === "module") setIsModuleVisible(true);
   }
 
-  function handleNodeTouchStart(e) {
+  function handleNodeTouchStart() {
     // !!! still need to test on actual phone.
     //do on longtouch
 
@@ -46,3 +47,10 @@ function TreePageChart({
 }
 
 export default TreePageChart;
+
+TreePageChart.propTypes = {
+  branch: PropTypes.object,
+  clickedNode: PropTypes.object,
+  setClickedNode: PropTypes.func,
+  setIsModuleVisible: PropTypes.func
+}
