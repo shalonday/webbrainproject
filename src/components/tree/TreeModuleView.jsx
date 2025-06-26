@@ -1,6 +1,7 @@
 import Markdown from "react-markdown";
 import styles from "./TreeModuleView.module.css";
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 
 function TreeModuleView({
   tree,
@@ -174,3 +175,10 @@ function TreeModuleView({
 }
 
 export default TreeModuleView;
+
+TreeModuleView.propTypes = {
+  tree: PropTypes.object,
+  setTreeWithActiveNodes: PropTypes.func,
+  clickedNode: PropTypes.object,
+  setIsModuleVisible: PropTypes.func,
+}
