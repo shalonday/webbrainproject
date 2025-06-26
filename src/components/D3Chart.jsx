@@ -18,6 +18,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import * as d3 from "d3";
 import styles from "./D3Chart.module.css";
 import { useEffect, useRef } from "react";
+import PropTypes from 'prop-types';
 
 const RADIUS = 7;
 const MINOR_RADIUS = RADIUS / 2;
@@ -265,4 +266,13 @@ export default function D3Chart({
       </svg>
     </div>
   );
+}
+
+D3Chart.propTypes = {
+  tree: PropTypes.object,
+  onNodeClick: PropTypes.func,
+  onNodeTouchStart: PropTypes.func,
+  onNodeTouchEnd: PropTypes.func,
+  selectedNodeIds: PropTypes.array,
+  currentNode: PropTypes.object
 }

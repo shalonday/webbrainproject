@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import Loader from "./Loader";
 import { useEffect } from "react";
+import PropTypes from 'prop-types';
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
@@ -43,3 +44,7 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node
+}

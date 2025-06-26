@@ -16,6 +16,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 
 const StyledMainButton = styled.button`
   border-radius: 8px;
@@ -67,3 +68,10 @@ function MainButton({ onClick, children, disabled = false, className }) {
 }
 
 export default MainButton;
+
+MainButton.propTypes = {
+  onClick: PropTypes.func, 
+  children: PropTypes.node, 
+  disabled: PropTypes.bool, 
+  className: PropTypes.string 
+}

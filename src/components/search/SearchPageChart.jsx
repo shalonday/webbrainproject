@@ -18,6 +18,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 import { useEffect, useRef, useState } from "react";
 import { useSkillTreesContext } from "../../contexts/SkillTreesContext";
 import D3Chart from "../D3Chart";
+import PropTypes from 'prop-types';
 
 function SearchPageChart({
   universalTree,
@@ -125,3 +126,11 @@ function SearchPageChart({
 }
 
 export default SearchPageChart;
+
+SearchPageChart.propTypes = {
+  universalTree: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)),
+  selectedNodes: PropTypes.arrayOf(PropTypes.object),
+  setSelectedNodes: PropTypes.func,
+  setCurrentNode: PropTypes.func,
+  currentNode: PropTypes.object,
+}
