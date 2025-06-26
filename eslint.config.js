@@ -9,7 +9,10 @@ export default defineConfig([
     extends: ["js/all"], 
     files: ["**/*.{js,mjs,cjs,jsx}"], 
     languageOptions: { globals: globals.browser }, 
-    plugins: { js }
+    plugins: { js },
+    rules: {
+      "no-inline-comments": "off"
+    }
   }, 
   pluginReact.configs.flat.all,
   pluginReact.configs.flat['jsx-runtime'], // Remove 'React must be in scope' errors in files that use jsx
