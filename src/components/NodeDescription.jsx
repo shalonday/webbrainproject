@@ -16,6 +16,8 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import styles from "./NodeDescription.module.css";
+import PropTypes from 'prop-types';
+
 function NodeDescription({
   children, // probably always the update/delete buttons if not null
   currentNode,
@@ -33,3 +35,9 @@ function NodeDescription({
 }
 
 export default NodeDescription;
+
+NodeDescription.propTypes = {
+  children: PropTypes.node,
+  currentNode: PropTypes.object,
+  className: PropTypes.string,
+}
