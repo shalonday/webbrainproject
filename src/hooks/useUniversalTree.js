@@ -19,14 +19,14 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchUniversalTree } from "../services/apiTrees";
 
 export function useUniversalTree() {
-  const {
-    isLoading,
-    data: universalTree,
-    error,
-  } = useQuery({
-    queryKey: ["universalTree"],
-    queryFn: fetchUniversalTree,
-  });
+    const {
+        isLoading,
+        data: universalTree,
+        error,
+    } = useQuery({
+        queryFn: fetchUniversalTree,
+        queryKey: ["universalTree"],
+    });
 
-  return { universalTree, isLoading, error };
+    return { error, isLoading, universalTree, };
 }
