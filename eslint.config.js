@@ -38,7 +38,7 @@ export default defineConfig([
             "@stylistic/indent": ["error", numIndentSpaces],
             "func-style": ["warn", "declaration"],
             "id-length": ["error", {
-                "exceptions": ["i", "j", "k"]
+                "exceptions": ["e", "i", "j", "k"]
             }],
             "import/order": [
                 'error',
@@ -47,12 +47,16 @@ export default defineConfig([
                     'newlines-between': 'never'
                 }
             ],
+            "init-declarations": "off",
             "no-inline-comments": "off",
             "no-magic-numbers": ["error", {
                 "ignore": [0, 1],
                 "ignoreArrayIndexes": true,
             }],
+            "no-empty-function": ["error", {"allow": ["arrowFunctions"]}],
             "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+            "no-ternary": "off",
+            "no-underscore-dangle": "off", // Turn off because D3 uses dangling underscores in their object properties
             "one-var": ["warn", {"initialized": "never", "uninitialized": "always", }],
             "react/jsx-newline": ["warn", { "allowMultilines": false, "prevent": true,  }],
             "react/no-multi-comp": "off",
