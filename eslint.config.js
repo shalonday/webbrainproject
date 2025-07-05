@@ -16,6 +16,7 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import js from "@eslint/js";
+import stylistic from '@stylistic/eslint-plugin'
 // eslint-disable-next-line import/no-unresolved
 import { defineConfig } from "eslint/config";
 import importPlugin from 'eslint-plugin-import'
@@ -31,9 +32,10 @@ export default defineConfig([
         extends: ["js/all"], 
         files: ["**/*.{js,mjs,cjs,jsx}"], 
         languageOptions: { globals: globals.browser }, 
-        plugins: { import: importPlugin, js },
+        plugins: { '@stylistic': stylistic, import: importPlugin, js },
         rules: {
             ...importPlugin.flatConfigs.recommended.rules,
+            "@stylistic/indent": ["error", numIndentSpaces],
             "func-style": ["warn", "declaration"],
             "import/order": [
                 'error',
@@ -42,11 +44,18 @@ export default defineConfig([
                     'newlines-between': 'never'
                 }
             ],
-            "indent": ["error", numIndentSpaces],
             "no-inline-comments": "off",
             "react/jsx-newline": ["warn", { "allowMultilines": false, "prevent": true,  }],
             "react/no-multi-comp": "off",
             "sort-imports": "off", // Turn off this core rule, prioritizing rules from eslint-plugin-import instead, to prevent conflicts
-        }
+        },
+        settings: {
+            'import/extensions': ['.js', '.jsx'],
+            'import/resolver': {
+                node: {
+                    extensions: ['.js', '.jsx', '.json'],
+                },
+            },
+        },
     },
 ]);
