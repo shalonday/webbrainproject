@@ -16,141 +16,165 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { useState } from "react";
+import ReactSelect from "react-select";
+import { useUser } from "../../../hooks/useUser";
+import { nanoid } from "nanoid";
+import MainButton from "../../MainButton";
 import styles from "./AddNodeSection.module.css";
 import GraphicalNodeSearch from "./GraphicalNodeSearch";
-import ReactSelect from "react-select";
-import MainButton from "../../MainButton";
 import TextNodeSearch from "./TextNodeSearch";
-import { uuidv4 } from "../../../utils";
-import { useUser } from "../../../hooks/useUser";
 function AddNodeSection({ nodes, setNodes, currentTree, type }) {
-  const [searchMode, setSearchMode] = useState("");
-  const [isSearchBoxVisible, setIsSearchBoxVisible] = useState(false);
+    const [searchMode, setSearchMode] = useState(""),
+        [isSearchBoxVisible, setIsSearchBoxVisible] = useState(false),
 
-  // Array containing either node objects (picked from existing tree) or description strings (created) obtained via the search area before pressing Add.
-  const [tempNodesOrDescriptions, setTempNodesOrDescriptions] = useState([]);
+        // Array containing either node objects (picked from existing tree) or description strings (created) obtained via the search area before pressing Add.
+        [tempNodesOrDescriptions, setTempNodesOrDescriptions] = useState([]),
 
-  const { user } = useUser();
+        { user } = useUser(),
 
-  const options = [
-    { value: "text", label: "Select from a dropdown or create a new node" },
-    // { value: "edit", label: "Pick a node from current draft" },
-    // { value: "univ", label: "Pick a node from universal tree" },
-  ];
+        options = [
+            { value: "text", label: "Select from a dropdown or create a new node" },
+            // { value: "edit", label: "Pick a node from current draft" },
+            // { value: "univ", label: "Pick a node from universal tree" },
+        ];
 
-  function openNodeSearch(e) {
-    e.preventDefault();
-    setIsSearchBoxVisible(true);
-  }
+    function openNodeSearch(e) {
+        e.preventDefault();
+        setIsSearchBoxVisible(true);
+    }
 
-  // Int -> Effect
-  // delete item in bullets array that corresponds to index
-  function handleDeleteItem(index) {
-    setNodes((array) => array.filter((item, i) => i !== index));
-  }
+    // Int -> Effect
+    // Delete item in bullets array that corresponds to index
+    function handleDeleteItem(index) {
+        setNodes((array) => array.filter((item, i) => i !== index));
+    }
 
-  // Add a node object (not just description) to array
-  function handleAddItem(e) {
-    e.preventDefault();
-    const nodesToAdd = tempNodesOrDescriptions.map((nodeOrDesc) => {
-      if (nodeOrDesc.id) {
-        //node
-        return nodeOrDesc;
-      } else {
-        //description string
-        return {
-          id: uuidv4(),
-          type: "skill",
-          title: "",
-          description: nodeOrDesc,
-          major: false,
-          author_id: user.id,
-        };
-      }
-    });
+    // Add a node object (not just description) to array
+    function handleAddItem(e) {
+        e.preventDefault();
+        const nodesToAdd = tempNodesOrDescriptions.map((nodeOrDesc) => {
+            if (nodeOrDesc.id) {
+                //Node
+                return nodeOrDesc;
+            } 
+            //Description string
+            return {
+                id: nanoid(),
+                type: "skill",
+                title: "",
+                description: nodeOrDesc,
+                major: false,
+                author_id: user.id,
+            };
+      
+        });
 
-    setNodes((array) => array.concat(nodesToAdd));
-    setIsSearchBoxVisible(false);
-    setTempNodesOrDescriptions([]);
-  }
+        setNodes((array) => array.concat(nodesToAdd));
+        setIsSearchBoxVisible(false);
+        setTempNodesOrDescriptions([]);
+    }
 
-  function handleCancel(e) {
-    e.preventDefault();
-    setIsSearchBoxVisible(false);
-    setTempNodesOrDescriptions([]);
-  }
+    function handleCancel(e) {
+        e.preventDefault();
+        setIsSearchBoxVisible(false);
+        setTempNodesOrDescriptions([]);
+    }
 
-  return (
-    <fieldset className={styles.addNodesSection}>
-      <h3>{type === "obj" ? "Objectives" : "Prerequisites"}</h3>
-      {type === "obj"
-        ? "By the end of this module, the learner should be able to:"
-        : "Before starting this module, the learner should already be able to:"}
-      <ul className={styles.nodeList}>
-        {nodes.map((node, index) => (
-          <li key={index} className={styles.nodeInputGroup}>
-            <span onClick={() => handleDeleteItem(index)}>&#10005;</span>
-            <p>{node.description}</p>
-          </li>
-        ))}
-        {!isSearchBoxVisible && (
-          <button
-            onClick={openNodeSearch}
-            key="last"
-            className={styles.addNodeButton}
-          >
-            +
-          </button>
-        )}
-        {isSearchBoxVisible && (
-          <>
-            <ReactSelect
-              defaultValue={"text"}
-              placeholder="How do you want to search for a skill node?"
-              options={options}
-              onChange={(option) => {
-                setSearchMode(option.value);
-              }}
-              styles={{
-                control: (baseStyles) => ({
-                  ...baseStyles,
-                  backgroundColor: "black",
-                }),
-                menu: (baseStyles) => ({
-                  ...baseStyles,
-                  backgroundColor: "black",
-                  border: "1px solid white",
-                }),
-                option: (baseStyles) => ({
-                  ...baseStyles,
-                  backgroundColor: "black",
-                }),
-                singleValue: (baseStyles) => ({
-                  ...baseStyles,
-                  color: "white",
-                }),
-              }}
-            />
-            {searchMode === "text" && (
-              <TextNodeSearch
-                tempNodesOrDescriptions={tempNodesOrDescriptions}
-                setTempNodesOrDescriptions={setTempNodesOrDescriptions}
-                currentTree={currentTree}
-              />
-            )}
-            {searchMode === "edit" && (
-              <GraphicalNodeSearch type="edit" currentTree={currentTree} />
-            )}
-            {searchMode === "univ" && <GraphicalNodeSearch type="univ" />}
-            <div className={styles.mainButtons}>
-              <MainButton onClick={handleCancel}>Cancel</MainButton>
-              <MainButton onClick={handleAddItem}>Add</MainButton>
-            </div>
-          </>
-        )}
-      </ul>
-    </fieldset>
-  );
+    return (
+        <fieldset className={styles.addNodesSection}>
+            <h3>
+                {type === "obj" ? "Objectives" : "Prerequisites"}
+            </h3>
+
+            {type === "obj"
+                ? "By the end of this module, the learner should be able to:"
+                : "Before starting this module, the learner should already be able to:"}
+
+            <ul className={styles.nodeList}>
+                {nodes.map((node, index) => (
+                    <li
+                        className={styles.nodeInputGroup}
+                        key={index}
+                    >
+                        <span onClick={() => handleDeleteItem(index)}>
+                            &#10005;
+                        </span>
+
+                        <p>
+                            {node.description}
+                        </p>
+                    </li>
+                ))}
+
+                {!isSearchBoxVisible && (
+                    <button
+                        className={styles.addNodeButton}
+                        key="last"
+                        onClick={openNodeSearch}
+                    >
+                        +
+                    </button>
+                )}
+
+                {isSearchBoxVisible ? <>
+                    <ReactSelect
+                        defaultValue="text"
+                        onChange={(option) => {
+                            setSearchMode(option.value);
+                        }}
+                        options={options}
+                        placeholder="How do you want to search for a skill node?"
+                        styles={{
+                            control: (baseStyles) => ({
+                                ...baseStyles,
+                                backgroundColor: "black",
+                            }),
+                            menu: (baseStyles) => ({
+                                ...baseStyles,
+                                backgroundColor: "black",
+                                border: "1px solid white",
+                            }),
+                            option: (baseStyles) => ({
+                                ...baseStyles,
+                                backgroundColor: "black",
+                            }),
+                            singleValue: (baseStyles) => ({
+                                ...baseStyles,
+                                color: "white",
+                            }),
+                        }}
+                    />
+
+                    {searchMode === "text" && (
+                        <TextNodeSearch
+                            currentTree={currentTree}
+                            setTempNodesOrDescriptions={setTempNodesOrDescriptions}
+                            tempNodesOrDescriptions={tempNodesOrDescriptions}
+                        />
+                    )}
+
+                    {searchMode === "edit" && (
+                        <GraphicalNodeSearch
+                            currentTree={currentTree}
+                            type="edit"
+                        />
+                    )}
+
+                    {searchMode === "univ" && <GraphicalNodeSearch type="univ" />}
+
+                    <div className={styles.mainButtons}>
+                        <MainButton onClick={handleCancel}>
+                            Cancel
+                        </MainButton>
+
+                        <MainButton onClick={handleAddItem}>
+                            Add
+                        </MainButton>
+                    </div>
+                                      </> : null}
+            </ul>
+        </fieldset>
+    );
 }
 
 export default AddNodeSection;
