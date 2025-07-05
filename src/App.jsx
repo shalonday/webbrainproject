@@ -1,5 +1,5 @@
 /* 
-Copyright 2023, Salvador Pio Alonday
+Copyright 2023, 2025 Salvador Pio Alonday
 
 This file is part of The Web Brain Project
 
@@ -15,64 +15,96 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Search from "./pages/Search";
-import Tree from "./pages/Tree";
-import PageNotFound from "./pages/PageNotFound";
 import "./App.css";
-import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PropTypes from "prop-types";
 import { Toaster } from "react-hot-toast";
-import GlobalStyles from "./GlobalStyles";
-import DarkTheme from "./DarkTheme";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
+import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
+import DarkTheme from "./DarkTheme";
+import GlobalStyles from "./GlobalStyles";
+import PageNotFound from "./pages/PageNotFound";
+import Search from "./pages/Search";
+import Tree from "./pages/Tree";
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 0,
+    defaultOptions: {
+        queries: {
+            staleTime: 0,
+        },
     },
-  },
 });
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <SkillTreesContextProvider>
-        <GlobalStyles />
-        <DarkTheme />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<Search />} />
-              <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
-            </Route>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
-        <Toaster
-          position="bottom-center"
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 1500,
-            },
-            style: {
-              fontSize: "1rem",
-              maxWidth: "500px",
-              padding: "16px 24px",
-            },
-          }}
+function AppRoutes() {
+    <Routes>
+        <Route element={<AppLayout />}>
+            <Route
+                element={<Search />}
+                index
+            />
+            <Route
+                element={<Tree />}
+                path="s/:startNodeId/e/:endNodeId"
+            />
+        </Route>
+        <Route
+            element={<PageNotFound />}
+            path="*"
         />
-      </SkillTreesContextProvider>
-    </QueryClientProvider>
-  );
+    </Routes>
+}
+
+function AppProviders({ children }) {
+    return ( 
+        <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <SkillTreesContextProvider>
+                {children}
+            </SkillTreesContextProvider>
+        </QueryClientProvider>
+    );
+}
+
+function AppToasterComponent () {
+    return (
+        <Toaster
+            containerStyle={{ margin: "8px" }}
+            gutter={12}
+            position="bottom-center"
+            toastOptions={{
+                error: {
+                    duration: 1500,
+                },
+                style: {
+                    fontSize: "1rem",
+                    maxWidth: "500px",
+                    padding: "16px 24px",
+                },
+                success: {
+                    duration: 3000,
+                },
+            }}
+        />
+    )
+}
+
+function App() {
+    return (
+        <AppProviders>
+            <GlobalStyles />
+            <DarkTheme />
+            <BrowserRouter>
+                <AppRoutes />
+            </BrowserRouter>
+            <AppToasterComponent />
+        </AppProviders>
+    );
 }
 
 export default App;
+
+AppProviders.propTypes = {
+    children: PropTypes.node.isRequired
+}
