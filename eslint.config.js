@@ -37,6 +37,9 @@ export default defineConfig([
             ...importPlugin.flatConfigs.recommended.rules,
             "@stylistic/indent": ["error", numIndentSpaces],
             "func-style": ["warn", "declaration"],
+            "id-length": ["error", {
+                "exceptions": ["i", "j", "k"]
+            }],
             "import/order": [
                 'error',
                 {
@@ -45,6 +48,12 @@ export default defineConfig([
                 }
             ],
             "no-inline-comments": "off",
+            "no-magic-numbers": ["error", {
+                "ignore": [0, 1],
+                "ignoreArrayIndexes": true,
+            }],
+            "no-plusplus": { "allowForLoopAfterthoughts": true },
+            "one-var": ["warn", {"initialized": "never", "uninitialized": "always", }],
             "react/jsx-newline": ["warn", { "allowMultilines": false, "prevent": true,  }],
             "react/no-multi-comp": "off",
             "sort-imports": "off", // Turn off this core rule, prioritizing rules from eslint-plugin-import instead, to prevent conflicts
