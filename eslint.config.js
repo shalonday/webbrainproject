@@ -48,17 +48,18 @@ export default defineConfig([
                 }
             ],
             "init-declarations": "off",
+            "no-empty-function": ["error", {"allow": ["arrowFunctions"]}],
             "no-inline-comments": "off",
             "no-magic-numbers": ["error", {
                 "ignore": [0, 1],
                 "ignoreArrayIndexes": true,
             }],
-            "no-empty-function": ["error", {"allow": ["arrowFunctions"]}],
             "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
             "no-ternary": "off",
             "no-underscore-dangle": "off", // Turn off because D3 uses dangling underscores in their object properties
             "one-var": ["warn", {"initialized": "never", "uninitialized": "always", }],
             "react/jsx-newline": ["warn", { "allowMultilines": false, "prevent": true,  }],
+            "react/jsx-no-literals": "off",
             "react/no-multi-comp": "off",
             "sort-imports": "off", // Turn off this core rule, prioritizing rules from eslint-plugin-import instead, to prevent conflicts
         },
