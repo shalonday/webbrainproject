@@ -28,6 +28,7 @@ function SearchPageChart({
 }) {
   const { searchResult, pathResult } = useSkillTreesContext();
   const [displayedTree, setDisplayedTree] = useState(universalTree);
+  console.log(universalTree)
   let timer;
   const touchduration = 500;
 
@@ -61,6 +62,7 @@ function SearchPageChart({
 
   // click uses "e.target.__data__" while touch uses "e.subject"; this is because of how the click events are handled at D3Chart.jsx
   function handleNodeClick(e) {
+    console.log(e)
     // ctrl + click
     if (e.ctrlKey) {
       // allow for multiple selection
