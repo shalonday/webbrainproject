@@ -19,18 +19,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Search from "./pages/Search";
 import Tree from "./pages/Tree";
 import PageNotFound from "./pages/PageNotFound";
-import Edit from "./pages/Edit";
 import "./App.css";
 import { SkillTreesContextProvider } from "./contexts/SkillTreesContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
 import GlobalStyles from "./GlobalStyles";
 import DarkTheme from "./DarkTheme";
-import Profile from "./pages/Profile";
-import Signup from "./pages/Signup";
 import AppLayout from "./components/AppLayout";
 
 const queryClient = new QueryClient({
@@ -53,26 +48,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Search />} />
               <Route path="s/:startNodeId/e/:endNodeId" element={<Tree />} />
-              {/* <Route //Temporarily disabled while I work on the MVP
-                path="edit/:nodeIds"
-                element={
-                  <ProtectedRoute>
-                    <Edit />
-                  </ProtectedRoute>
-                }
-              /> */}
             </Route>
-
-            {/* <Route path="login" element={<Login />} /> //Temporarily disabled while I work on the MVP
-            <Route path="signup" element={<Signup />} />
-            <Route
-              path="profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            /> */}
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
