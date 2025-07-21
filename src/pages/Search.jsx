@@ -15,110 +15,119 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import styles from "./Search.module.css";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import SearchPageChart from "../components/search/SearchPageChart";
-import MainButton from "../components/MainButton";
-import Loader from "../components/Loader";
-import { fetchUniversalTree } from "../services/apiTrees";
 import { useQuery } from "@tanstack/react-query";
-import NodeDescription from "../components/NodeDescription";
-import SelectedNodesCard from "../components/search/SelectedNodesCard";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
+import MainButton from "../components/MainButton";
+import NodeDescription from "../components/NodeDescription";
+import SearchPageChart from "../components/search/SearchPageChart";
+import SelectedNodesCard from "../components/search/SelectedNodesCard";
+import { fetchUniversalTree } from "../services/apiTrees";
+import styles from "./Search.module.css";
 
 function Search() {
-  const {
-    isLoading,
-    data: universalTree,
-    error,
-  } = useQuery({
-    queryKey: ["universalTree"],
-    queryFn: fetchUniversalTree,
-  });
+    const {
+        isLoading,
+        data: universalTree,
+        error,
+    } = useQuery({
+        queryKey: ["universalTree"],
+        queryFn: fetchUniversalTree,
+    });
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
-  const [selectedNodes, setSelectedNodes] = useState([]);
-  const [currentNode, setCurrentNode] = useState(null);
+    const [selectedNodes, setSelectedNodes] = useState([]);
+    const [currentNode, setCurrentNode] = useState(null);
 
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      //search, then setSelectedNodes to the search results;
-      const results = searchNodes(searchQuery, universalTree);
-      if (results.length > 0) {
-        setCurrentNode(null); //doesn't make sense to retain previous currentNode when searching
-        setSelectedNodes(results);
-      } else {
-        toast.error("That didn't return any results!");
-      }
+    function handleKeyDown(e) {
+        if (e.key === "Enter") {
+            //Search, then setSelectedNodes to the search results;
+            const results = searchNodes(searchQuery, universalTree);
+            if (results.length > 0) {
+                setCurrentNode(null); //Doesn't make sense to retain previous currentNode when searching
+                setSelectedNodes(results);
+            } else {
+                toast.error("That didn't return any results!");
+            }
+        }
     }
-  }
 
-  function handleGeneratePath() {
-    navigate(`/s/0/e/${currentNode.id}`);
-  }
+    function handleGeneratePath() {
+        navigate(`/s/0/e/${currentNode.id}`);
+    }
 
-  return (
-    <div className={styles.searchPage}>
-      {currentNode && <NodeDescription currentNode={currentNode} />}
+    return (
+        <div className={styles.searchPage}>
+            {currentNode ? <NodeDescription currentNode={currentNode} /> : null}
 
-      {isLoading && <Loader />}
-      {error && <h1>{error}</h1>}
-      {!isLoading && !error && (
-        <SearchPageChart
-          universalTree={universalTree}
-          selectedNodes={selectedNodes}
-          setSelectedNodes={setSelectedNodes}
-          setCurrentNode={setCurrentNode}
-          currentNode={currentNode}
-        />
-      )}
-      <div className={styles.bottomThird}>
-        {selectedNodes.length > 0 && (
-          <SelectedNodesCard
-            selectedNodes={selectedNodes}
-            setCurrentNode={setCurrentNode}
-          />
-        )}
-        <div className={styles.buttonsDiv}>
-          <MainButton onClick={handleGeneratePath} disabled={!currentNode}>
-            Generate Path
-          </MainButton>
+            {isLoading ? <Loader /> : null}
+
+            {error ? <h1>
+                {error}
+                     </h1> : null}
+
+            {!isLoading && !error && (
+                <SearchPageChart
+                    currentNode={currentNode}
+                    selectedNodes={selectedNodes}
+                    setCurrentNode={setCurrentNode}
+                    setSelectedNodes={setSelectedNodes}
+                    universalTree={universalTree}
+                />
+            )}
+
+            <div className={styles.bottomThird}>
+                {selectedNodes.length > 0 && (
+                    <SelectedNodesCard
+                        selectedNodes={selectedNodes}
+                        setCurrentNode={setCurrentNode}
+                    />
+                )}
+
+                <div className={styles.buttonsDiv}>
+                    <MainButton
+                        disabled={!currentNode}
+                        onClick={handleGeneratePath}
+                    >
+                        Generate Path
+                    </MainButton>
+                </div>
+
+                <div className={styles.inputDiv}>
+                    <input
+                        className={`${styles.input} ${
+                            searchQuery ? styles.inputNoBackground : ""
+                        }`}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="What do you want to learn?"
+                        value={searchQuery}
+                    />
+                </div>
+            </div>
         </div>
-
-        <div className={styles.inputDiv}>
-          <input
-            placeholder="What do you want to learn?"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className={`${styles.input} ${
-              searchQuery ? styles.inputNoBackground : ""
-            }`}
-          />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 // String, Tree -> Nodes
 function searchNodes(query, tree) {
-  // search locally
-  const queryResults = tree.nodes.filter((node) => nodeIsMatch(node, query));
-  return queryResults;
+    // Search locally
+    const queryResults = tree.nodes.filter((node) => nodeIsMatch(node, query));
+    return queryResults;
 }
 
 // Node, String -> Boolean
 function nodeIsMatch(node, query) {
-  if (node.type === "skill") {
-    return (
-      node.name?.toLowerCase().includes(query.toLowerCase())
-    );
-  } else return false;
+    if (node.type === "skill") {
+        return (
+            node.name?.toLowerCase().includes(query.toLowerCase())
+        );
+    } return false;
 }
 
 export default Search;
