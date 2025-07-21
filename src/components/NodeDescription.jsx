@@ -15,21 +15,40 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import PropTypes from 'prop-types';
 import styles from "./NodeDescription.module.css";
+
 function NodeDescription({
-  children, // probably always the update/delete buttons if not null
-  currentNode,
-  className = styles.nodeDescription,
+    children, // Probably always the update/delete buttons if not null
+    currentNode,
+    className = styles.nodeDescription,
 }) {
-  return (
-    <div className={className}>
-      <div>
-        <h3>{currentNode?.title}</h3>
-      </div>
-      <p>{currentNode?.description}</p>
-      {children}
-    </div>
-  );
+    return (
+        <div className={className}>
+            <div>
+                <h3>
+                    {currentNode?.title}
+                </h3>
+            </div>
+            <p>
+                {currentNode?.description}
+            </p>
+            {children}
+        </div>
+    );
 }
 
 export default NodeDescription;
+
+NodeDescription.propTypes = {
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    currentNode: PropTypes.shape({
+        description: PropTypes.string,
+        title: PropTypes.string,
+    }).isRequired,
+}
+
+NodeDescription.defaultProps = {
+    className: styles.nodeDescription
+}

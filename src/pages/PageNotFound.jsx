@@ -16,7 +16,11 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
 function PageNotFound() {
-  return <div>PageNotFound</div>;
+    return (
+        <div>
+            PageNotFound
+        </div>
+    );
 }
 
 export default PageNotFound;

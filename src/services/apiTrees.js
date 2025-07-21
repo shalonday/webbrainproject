@@ -18,25 +18,25 @@ Brain Project. If not, see <https://www.gnu.org/licenses/>.
 const BASE_URL = "https://perk-api-production.up.railway.app"; //"http://localhost:3000"; //
 
 export async function fetchUniversalTree() {
-  try {
-    const res = await fetch(`${BASE_URL}/tree`);
-    const data = await res.json();
-    return data;
-  } catch {
-    throw new Error("There was an error fetching the universal tree");
-  }
+    try {
+        const res = await fetch(`${BASE_URL}/tree`);
+        const data = await res.json();
+        return data;
+    } catch {
+        throw new Error("There was an error fetching the universal tree");
+    }
 }
 
 export async function createNeo4jUserNode(user) {
-  try {
-    await fetch(`${BASE_URL}/user`, {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch {
-    throw new Error("There was an error adding the user to the neo4j database");
-  }
+    try {
+        await fetch(`${BASE_URL}/user`, {
+            body: JSON.stringify(user),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST"
+        });
+    } catch {
+        throw new Error("There was an error adding the user to the neo4j database");
+    }
 }

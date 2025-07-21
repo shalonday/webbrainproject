@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import PropTypes from 'prop-types';
 import styled from "styled-components";
 
 const StyledCard = styled.div`
@@ -37,24 +38,33 @@ const ListItem = styled.li`
 `;
 
 function SelectedNodesCard({
-  selectedNodes,
-  setCurrentNode,
-  maxHeight = "18vh",
+    selectedNodes,
+    setCurrentNode,
+    maxHeight = "18vh",
 }) {
-  function focusClickedNode(e, node) {
-    setCurrentNode(node);
-  }
-  return (
-    <StyledCard style={{ maxHeight: maxHeight }}>
-      <ul>
-        {selectedNodes?.map((node) => (
-          <ListItem key={node.id} onClick={(e) => focusClickedNode(e, node)}>
-            {node.name}
-          </ListItem>
-        ))}
-      </ul>
-    </StyledCard>
-  );
+    function focusClickedNode(e, node) {
+        setCurrentNode(node);
+    }
+    return (
+        <StyledCard style={{ maxHeight }}>
+            <ul>
+                {selectedNodes?.map((node) => (
+                    <ListItem
+                        key={node.id}
+                        onClick={(e) => focusClickedNode(e, node)}
+                    >
+                        {node.name}
+                    </ListItem>
+                ))}
+            </ul>
+        </StyledCard>
+    );
 }
 
 export default SelectedNodesCard;
+
+SelectedNodesCard.propTypes = {
+    maxHeight: PropTypes.string,
+    selectedNodes: PropTypes.arrayOf(PropTypes.object),
+    setCurrentNode: PropTypes.func
+}

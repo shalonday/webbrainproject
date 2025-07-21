@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License along with The
 Brain Project. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import { styled } from "styled-components";
 
 const StyledMainButton = styled.button`
   border-radius: 8px;
@@ -54,16 +55,21 @@ const StyledMainButton = styled.button`
   }
 `;
 
-function MainButton({ onClick, children, disabled = false, className }) {
-  return (
-    <StyledMainButton
-      onClick={onClick}
-      disabled={disabled}
-      className={className}
-    >
-      {children}
-    </StyledMainButton>
-  );
+function MainButton({ onClick, children, disabled = false }) {
+    return (
+        <StyledMainButton
+            disabled={disabled}
+            onClick={onClick}
+        >
+            {children}
+        </StyledMainButton>
+    );
 }
 
 export default MainButton;
+
+MainButton.propTypes = {
+    children: PropTypes.node.isRequired,
+    disabled: PropTypes.bool.isRequired, 
+    onClick: PropTypes.func.isRequired 
+}
