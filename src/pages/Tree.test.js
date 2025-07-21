@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import Tree from "./Tree";
 import { describe, expect, test } from "vitest";
+import Tree from "./Tree";
 
 describe("Branch Page Path Display", () => {
     test("User sees a clear visualization of the learning path they asked for", () => {
-        // render(<App />);
-        // const headingElement = screen.getByText(/learn react/i);
-        // expect(headingElement).not.toBeInTheDocument();
+        // Render(<App />);
+        // Const headingElement = screen.getByText(/learn react/i);
+        // Expect(headingElement).not.toBeInTheDocument();
         throw new Error;
     });
 
