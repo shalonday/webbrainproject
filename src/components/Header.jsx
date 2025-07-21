@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiUser } from "react-icons/hi";
 import { useUser } from "../hooks/useUser";
-import { useLogout } from "../hooks/useLogout";
-import { Button } from "@mui/material";
 
 const StyledHeader = styled.header`
   background-color: transparent;
@@ -27,17 +25,11 @@ const MenuItem = styled.li`
   cursor: pointer;
 `;
 
-const ButtonsDiv = styled.div`
-  display: flex;
-  gap: 0px 10px;
-`;
-
 function Header() {
   const navigate = useNavigate();
   const [areOptionsVisible, setAreOptionsVisible] = useState(false);
 
   const { user } = useUser();
-  const { logout, isLoading: isLoggingOut } = useLogout();
 
   function toggleOptions() {
     setAreOptionsVisible((val) => !val);
