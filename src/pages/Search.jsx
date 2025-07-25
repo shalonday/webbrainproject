@@ -27,23 +27,10 @@ import SelectedNodesCard from "../components/search/SelectedNodesCard";
 import { fetchUniversalTree } from "../services/apiTrees";
 import styles from "./Search.module.css";
 
-function Search() {
-    const {
-        isLoading,
-        data: universalTree,
-        error,
-    } = useQuery({
-        queryKey: ["universalTree"],
-        queryFn: fetchUniversalTree,
-    });
-
+function BottomThird(){
     const navigate = useNavigate();
-
     const [searchQuery, setSearchQuery] = useState("");
-
-    const [selectedNodes, setSelectedNodes] = useState([]);
-    const [currentNode, setCurrentNode] = useState(null);
-
+    
     function handleKeyDown(e) {
         if (e.key === "Enter") {
             //Search, then setSelectedNodes to the search results;
@@ -60,17 +47,52 @@ function Search() {
     function handleGeneratePath() {
         navigate(`/s/0/e/${currentNode.id}`);
     }
+    return (
+        <div className={styles.bottomThird}>
+            {selectedNodes.length > 0 && (
+                <SelectedNodesCard
+                    selectedNodes={selectedNodes}
+                    setCurrentNode={setCurrentNode}
+                />
+            )}
+            <div className={styles.buttonsDiv}>
+                <MainButton
+                    disabled={!currentNode}
+                    onClick={handleGeneratePath}
+                >
+                    Generate Path
+                </MainButton>
+            </div>
+            <div className={styles.inputDiv}>
+                <input
+                    className={`${styles.input} ${
+                        searchQuery ? styles.inputNoBackground : ""
+                    }`}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="What do you want to learn?"
+                    value={searchQuery}
+                />
+            </div>
+        </div>
+    )
+}
+
+function Search() {
+    const { isLoading,data: universalTree,error,} = useQuery({queryFn: fetchUniversalTree, queryKey: ["universalTree"],});
+    const [selectedNodes, setSelectedNodes] = useState([]);
+    const [currentNode, setCurrentNode] = useState(null);
+
+    
 
     return (
         <div className={styles.searchPage}>
             {currentNode ? <NodeDescription currentNode={currentNode} /> : null}
-
             {isLoading ? <Loader /> : null}
-
-            {error ? <h1>
-                {error}
-                     </h1> : null}
-
+            {error ? 
+                <h1>
+                    {error}
+                </h1> : null}
             {!isLoading && !error && (
                 <SearchPageChart
                     currentNode={currentNode}
@@ -80,36 +102,7 @@ function Search() {
                     universalTree={universalTree}
                 />
             )}
-
-            <div className={styles.bottomThird}>
-                {selectedNodes.length > 0 && (
-                    <SelectedNodesCard
-                        selectedNodes={selectedNodes}
-                        setCurrentNode={setCurrentNode}
-                    />
-                )}
-
-                <div className={styles.buttonsDiv}>
-                    <MainButton
-                        disabled={!currentNode}
-                        onClick={handleGeneratePath}
-                    >
-                        Generate Path
-                    </MainButton>
-                </div>
-
-                <div className={styles.inputDiv}>
-                    <input
-                        className={`${styles.input} ${
-                            searchQuery ? styles.inputNoBackground : ""
-                        }`}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="What do you want to learn?"
-                        value={searchQuery}
-                    />
-                </div>
-            </div>
+            {BottomThird}    
         </div>
     );
 }
